@@ -43,14 +43,6 @@ public class MainActivity extends AppCompatActivity implements OrdersInterface {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));*/
 
 
-        // Inflate the card template
-        LayoutInflater inflater = getLayoutInflater();
-        View cardTemplate = inflater.inflate(R.layout.input_template, null);
-
-        // Add the inflated card template to your main layout
-        RelativeLayout mainLayout = findViewById(R.id.); // Replace with the actual ID of your main layout
-        mainLayout.addView(cardTemplate);
-
 
 
     }

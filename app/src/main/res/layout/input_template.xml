@@ -53,7 +53,7 @@
 
 
             <NumberPicker
-                android:id="@+id/gg"
+                android:id="@+id/itemCount"
                 android:layout_width="71dp"
                 android:layout_height="55dp"
                 app:layout_constraintBottom_toBottomOf="parent"

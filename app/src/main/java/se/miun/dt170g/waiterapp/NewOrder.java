@@ -3,6 +3,8 @@ package se.miun.dt170g.waiterapp;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -18,7 +20,7 @@ import java.util.ArrayList;
 
 public class NewOrder extends AppCompatActivity {
 
-    NumberPicker numberPicker = findViewById(R.id.gg);
+    private ArrayList<InputModel> inputModels = new ArrayList<>();;
 
 
     @Override
@@ -28,19 +30,21 @@ public class NewOrder extends AppCompatActivity {
 
         setTitle("Ny beställning");
 
+        RecyclerView recyclerView = findViewById(R.id.InputRecycleView);
 
-        numberPicker.setMinValue(0);
-        numberPicker.setMaxValue(10);
+        setUpOrderInput();
 
-        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-
-            }
-        });
+        InputAdapter adapter = new InputAdapter(this, inputModels);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     }
 
+    private void setUpOrderInput(){
+        for (int i = 0; i < 10; i++) {
+            inputModels.add(new InputModel("gg",312,0));
+        }
+    }
 
 
 
