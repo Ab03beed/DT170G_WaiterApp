@@ -4,20 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".CurrentOrder">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/OrdersRecycleView"
-        android:layout_width="405dp"
-        android:layout_height="629dp"
-        app:layout_constraintBottom_toTopOf="@+id/NewOrder"
+        android:id="@+id/ItemsRecycleView"
+        android:layout_width="409dp"
+        android:layout_height="596dp"
+        app:layout_constraintBottom_toTopOf="@+id/NewOrderrrrr"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
-        android:id="@+id/NewOrder"
+        android:id="@+id/NewOrderrrrr"
         android:layout_width="70dp"
         android:layout_height="75dp"
         android:layout_marginEnd="16dp"
