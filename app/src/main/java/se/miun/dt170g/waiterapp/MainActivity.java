@@ -6,11 +6,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
+
+import se.miun.dt170g.waiterapp.adapters.OrdersAdapter;
+import se.miun.dt170g.waiterapp.adapters.OrdersInterface;
+import se.miun.dt170g.waiterapp.class_models.OrderModel;
 
 public class MainActivity extends AppCompatActivity implements OrdersInterface {
 
@@ -70,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements OrdersInterface {
 
     @Override
     public void onItemClick(int position) {
-        Intent i = new Intent(this, CurrentOrder.class);
+        Intent i = new Intent(this, OrderDetails.class);
 
         i.putExtra("TableNr",position);
 

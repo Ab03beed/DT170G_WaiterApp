@@ -1,4 +1,4 @@
-package se.miun.dt170g.waiterapp;
+package se.miun.dt170g.waiterapp.adapters;
 
 public interface OrdersInterface {
 

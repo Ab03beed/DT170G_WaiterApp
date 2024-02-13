@@ -8,14 +8,17 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 
-public class CurrentOrder extends AppCompatActivity {
+import se.miun.dt170g.waiterapp.adapters.ItemsAdapter;
+import se.miun.dt170g.waiterapp.class_models.ItemModel;
+
+public class OrderDetails extends AppCompatActivity {
 
     ArrayList<ItemModel> itemModels = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_current_order);
+        setContentView(R.layout.activity_order_details);
 
         int tableNr = getIntent().getIntExtra("TableNr", 0);
 

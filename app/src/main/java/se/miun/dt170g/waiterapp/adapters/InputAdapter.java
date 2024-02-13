@@ -1,16 +1,18 @@
-package se.miun.dt170g.waiterapp;
+package se.miun.dt170g.waiterapp.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+
+import se.miun.dt170g.waiterapp.R;
+import se.miun.dt170g.waiterapp.class_models.InputModel;
 
 public class InputAdapter extends RecyclerView.Adapter<InputAdapter.MyViewHolder>{
 

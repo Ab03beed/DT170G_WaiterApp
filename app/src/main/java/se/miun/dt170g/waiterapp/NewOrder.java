@@ -6,17 +6,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-
 import android.widget.ArrayAdapter;
-import android.widget.NumberPicker;
-import android.widget.Spinner;;
+import android.widget.Spinner;
+
+;
 
 
 import java.util.ArrayList;
+
+import se.miun.dt170g.waiterapp.adapters.InputAdapter;
+import se.miun.dt170g.waiterapp.class_models.InputModel;
 
 public class NewOrder extends AppCompatActivity {
 
@@ -38,12 +38,21 @@ public class NewOrder extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        Spinner tableDropDown = findViewById(R.id.tabels);
+
+        ArrayAdapter<CharSequence> dropDownAdapter = ArrayAdapter.createFromResource(this, R.array.tablesID, android.R.layout.simple_spinner_item);
+        dropDownAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+
+        tableDropDown.setAdapter(dropDownAdapter);
+
     }
 
     private void setUpOrderInput(){
         for (int i = 0; i < 10; i++) {
-            inputModels.add(new InputModel("gg",312,0));
+            inputModels.add(new InputModel("Item Name",312,0));
         }
+
+
     }
 
 

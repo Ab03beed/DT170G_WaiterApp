@@ -1,4 +1,4 @@
-package se.miun.dt170g.waiterapp;
+package se.miun.dt170g.waiterapp.class_models;
 
 public class InputModel {
 
