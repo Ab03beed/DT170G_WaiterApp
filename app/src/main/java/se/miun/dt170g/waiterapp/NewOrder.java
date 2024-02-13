@@ -50,6 +50,7 @@ public class NewOrder extends AppCompatActivity {
     private void setUpOrderInput(){
         for (int i = 0; i < 10; i++) {
             inputModels.add(new InputModel("Item Name",312,0));
+
         }
 
 
