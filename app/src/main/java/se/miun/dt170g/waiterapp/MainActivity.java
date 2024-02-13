@@ -19,13 +19,12 @@ public class MainActivity extends AppCompatActivity implements OrdersInterface {
     ArrayList<OrderModel> orderModels = new ArrayList<>();
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setTitle("Beställningar");
+        setTitle("Bord");
 
         RecyclerView recyclerView = findViewById(R.id.OrdersRecycleView);
 
@@ -35,14 +34,6 @@ public class MainActivity extends AppCompatActivity implements OrdersInterface {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
-        /*RecyclerView recyclerView = findViewById(R.id.OrdersRecycleView);
-
-        setUpOrderItems();
-
-        ItemAdapter adapter = new ItemAdapter(this, itemModels);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));*/
 
 
 
@@ -62,8 +53,8 @@ public class MainActivity extends AppCompatActivity implements OrdersInterface {
         String[] status =  getResources().getStringArray(R.array.Status);
 
 
-        for (int i = 0; i < orders.length; i++) {
-            orderModels.add(new OrderModel(i, i,status[i], orders[i]));
+        for (int i = 1; i <= orders.length; i++) {
+            orderModels.add(new OrderModel(i, i,status[i-1], orders[i-1]));
         }
     }
 
@@ -72,9 +63,9 @@ public class MainActivity extends AppCompatActivity implements OrdersInterface {
 
     @Override
     public void onItemClick(int position) {
-        Intent i = new Intent(this, OrderDetails.class);
+        Intent i = new Intent(this, NewOrder.class);
 
-        i.putExtra("TableNr",position);
+        i.putExtra("TableNr",position+1);
 
         startActivity(i);
     }

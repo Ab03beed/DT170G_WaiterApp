@@ -7,8 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
 ;
 
@@ -28,22 +26,28 @@ public class NewOrder extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_order);
 
-        setTitle("Ny beställning");
+        int bordNr =  getIntent().getIntExtra("TableNr", 0);
 
-        RecyclerView recyclerView = findViewById(R.id.InputRecycleView);
+        setTitle("Bord Nr: " + bordNr);
+
+        RecyclerView recyclerView1 = findViewById(R.id.InputRecycleView1);
+        RecyclerView recyclerView2 = findViewById(R.id.InputRecycleView2);
+        RecyclerView recyclerView3 = findViewById(R.id.InputRecycleView3);
 
         setUpOrderInput();
 
         InputAdapter adapter = new InputAdapter(this, inputModels);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView1.setAdapter(adapter);
+        recyclerView1.setLayoutManager(new LinearLayoutManager(this));
 
-        Spinner tableDropDown = findViewById(R.id.tabels);
+        //InputAdapter adapter = new InputAdapter(this, inputModels);
+        recyclerView2.setAdapter(adapter);
+        recyclerView2.setLayoutManager(new LinearLayoutManager(this));
 
-        ArrayAdapter<CharSequence> dropDownAdapter = ArrayAdapter.createFromResource(this, R.array.tablesID, android.R.layout.simple_spinner_item);
-        dropDownAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        //InputAdapter adapter = new InputAdapter(this, inputModels);
+        recyclerView3.setAdapter(adapter);
+        recyclerView3.setLayoutManager(new LinearLayoutManager(this));
 
-        tableDropDown.setAdapter(dropDownAdapter);
 
     }
 

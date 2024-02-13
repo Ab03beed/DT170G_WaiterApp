@@ -8,25 +8,13 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/OrdersRecycleView"
-        android:layout_width="405dp"
-        android:layout_height="629dp"
-        app:layout_constraintBottom_toTopOf="@+id/NewOrder"
+        android:layout_width="409dp"
+        android:layout_height="692dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/NewOrder"
-        android:layout_width="70dp"
-        android:layout_height="75dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:onClick="newOrder"
-        android:text="+"
-        android:textSize="100px"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

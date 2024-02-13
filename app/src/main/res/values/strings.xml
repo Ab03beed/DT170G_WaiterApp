@@ -10,6 +10,7 @@
         <item>Bord Nr: 5</item>
         <item>Bord Nr: 6</item>
         <item>Bord Nr: 7</item>
+        <item>Bord Nr: 8</item>
     </string-array>
 
 
@@ -20,6 +21,7 @@
         <item>Färdig</item>
         <item>Påbörjad</item>
         <item>Färdig</item>
+        <item>Påbörjad</item>
         <item>Påbörjad</item>
     </string-array>
 
@@ -51,14 +53,6 @@
     </integer-array>
 
 
-    <string-array name="tablesID">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-    </string-array>
 
 
 
