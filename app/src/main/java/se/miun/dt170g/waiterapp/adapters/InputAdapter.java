@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -39,6 +40,8 @@ public class InputAdapter extends RecyclerView.Adapter<InputAdapter.MyViewHolder
     public void onBindViewHolder(@NonNull InputAdapter.MyViewHolder holder, int position) {
         holder.itemName.setText(inputModels.get(position).getItemName());
         holder.price.setText("Pris: " + String.valueOf(inputModels.get(position).getPrice()));
+        holder.numberPicker.setValue(inputModels.get(position).getItemCount());
+        holder.numberPicker.setValue(inputModels.get(position).getItemCount());
     }
 
     @Override
@@ -49,12 +52,14 @@ public class InputAdapter extends RecyclerView.Adapter<InputAdapter.MyViewHolder
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
         private TextView itemName, price;
+        private NumberPicker numberPicker;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             itemName = itemView.findViewById(R.id.ItemName);
             price = itemView.findViewById(R.id.price);
+            numberPicker = itemView.findViewById(R.id.numberPicker);
         }
     }
 

@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.NumberPicker;
 
 ;
@@ -21,7 +23,8 @@ public class NewOrder extends AppCompatActivity {
 
     private ArrayList<InputModel> inputModels = new ArrayList<>();;
 
-
+    NumberPicker numberPicker;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,10 +53,12 @@ public class NewOrder extends AppCompatActivity {
         recyclerView3.setAdapter(adapter);
         recyclerView3.setLayoutManager(new LinearLayoutManager(this));
 
-        NumberPicker numberPicker = findViewById(R.id.itemCount);
 
-        numberPicker.setMinValue(0);
-        numberPicker.setMaxValue(100);
+        NumberPicker numberPicker = findViewById(R.id.numberPicker);
+        
+        //Log.d("gg", numberPicker.getDisplayedValues()+" ");
+
+
 
 
 
@@ -61,7 +66,14 @@ public class NewOrder extends AppCompatActivity {
 
     private void setUpOrderInput(){
         for (int i = 0; i < 10; i++) {
-            inputModels.add(new InputModel("Item Name",312,0));
+            if(i == 0)
+                inputModels.add(new InputModel("kebab",120,0));
+
+            else if(i == 2)
+                inputModels.add(new InputModel("pizza",99,0));
+            else
+                inputModels.add(new InputModel("Item Name",312,0));
+
 
         }
 
