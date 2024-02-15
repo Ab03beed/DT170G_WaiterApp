@@ -24,9 +24,9 @@
             android:layout_height="102dp">
 
             <se.miun.dt170g.waiterapp.MyNumberPicker
-                android:id="@+id/numberPicker"
-                min="0"
+                android:id="@+id/FoodCount"
                 max="15"
+                min="0"
                 android:layout_width="62dp"
                 android:layout_height="95dp"
                 android:layout_gravity="center"
@@ -34,18 +34,18 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.906"
-                app:layout_constraintStart_toEndOf="@+id/ItemName"
+                app:layout_constraintStart_toEndOf="@+id/FoodName_input"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.571" />
 
             <TextView
-                android:id="@+id/ItemName"
+                android:id="@+id/FoodName_input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="sans-serif-light"
-                android:text="product name"
+                android:text="@string/FoodName_input"
                 android:textColor="@color/text_color_item"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -53,17 +53,17 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/price"
+                android:id="@+id/FoodPrice_input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="price"
+                android:text="@string/FoodPrice_input"
                 android:textColor="@color/text_color_price"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ItemName"
+                app:layout_constraintTop_toBottomOf="@+id/FoodName_input"
                 app:layout_constraintVertical_bias="0.35" />
 
 

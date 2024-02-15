@@ -23,6 +23,7 @@ public class InputAdapter extends RecyclerView.Adapter<InputAdapter.MyViewHolder
     public InputAdapter(Context context, ArrayList<InputModel> inputModels){
         this.context = context;
         this.inputModels = inputModels;
+
     }
 
 
@@ -41,7 +42,6 @@ public class InputAdapter extends RecyclerView.Adapter<InputAdapter.MyViewHolder
         holder.itemName.setText(inputModels.get(position).getItemName());
         holder.price.setText("Pris: " + String.valueOf(inputModels.get(position).getPrice()));
         holder.numberPicker.setValue(inputModels.get(position).getItemCount());
-        holder.numberPicker.setValue(inputModels.get(position).getItemCount());
     }
 
     @Override
@@ -57,9 +57,10 @@ public class InputAdapter extends RecyclerView.Adapter<InputAdapter.MyViewHolder
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            itemName = itemView.findViewById(R.id.ItemName);
-            price = itemView.findViewById(R.id.price);
-            numberPicker = itemView.findViewById(R.id.numberPicker);
+            itemName = itemView.findViewById(R.id.FoodName_input);
+            price = itemView.findViewById(R.id.FoodPrice_input);
+            numberPicker = itemView.findViewById(R.id.FoodCount);
+
         }
     }
 

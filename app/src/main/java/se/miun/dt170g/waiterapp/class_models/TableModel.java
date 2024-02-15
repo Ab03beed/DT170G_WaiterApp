@@ -1,25 +1,20 @@
 package se.miun.dt170g.waiterapp.class_models;
 
-public class OrderModel {
+public class TableModel {
 
-     int id;
      int tableId;
-     String status;
+     int status;
      String comment;
 
 
-    public OrderModel(int id, int tableId, String status, String comment) {
-        this.id = id;
+    public TableModel(int tableId, int status, String comment) {
         this.status = status;
         this.tableId = tableId;
         this.comment = comment;
     }
 
-    public int getId() {
-        return id;
-    }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 

@@ -24,7 +24,7 @@ public class OrderDetails extends AppCompatActivity {
 
         setTitle("Bord Nr: " + tableNr);
 
-        RecyclerView recyclerView = findViewById(R.id.ItemsRecycleView);
+        RecyclerView recyclerView = findViewById(R.id.ItemsRV);
 
         setUpOrderItems();
 
