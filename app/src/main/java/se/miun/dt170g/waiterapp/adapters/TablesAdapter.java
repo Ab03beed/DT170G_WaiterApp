@@ -12,18 +12,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import se.miun.dt170g.waiterapp.R;
-import se.miun.dt170g.waiterapp.class_models.TableModel;
+import se.miun.dt170g.waiterapp.class_models.TableItem;
 
 public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.MyViewHolder> {
 
     private final TablesInterface tablesInterface;
 
     private Context context;
-    private ArrayList<TableModel> tableModels;
+    private ArrayList<TableItem> tableItems;
 
-    public TablesAdapter(Context context, ArrayList<TableModel> tableModels, TablesInterface tablesInterface){
+    public TablesAdapter(Context context, ArrayList<TableItem> tableItems, TablesInterface tablesInterface){
         this.context = context;
-        this.tableModels = tableModels;
+        this.tableItems = tableItems;
         this.tablesInterface = tablesInterface;
     }
 
@@ -40,26 +40,26 @@ public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.MyViewHold
     @Override
     public void onBindViewHolder(@NonNull TablesAdapter.MyViewHolder holder, int position) {
 
-        holder.tableId.setText("Bord Nr: " + String.valueOf(tableModels.get(position).getTableId()));
-        holder.orderStatus.setText("Bordsläge: " + tableModels.get(position).getStatus());
+        holder.tableNumber.setText("Bord Nr: " + tableItems.get(position).getTableNumber());
+        holder.tableStatus.setText("Bordsläge: " + tableItems.get(position).getTableStatus());
 
     }
 
     @Override
     public int getItemCount() {
-        return tableModels.size();
+        return tableItems.size();
     }
 
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView tableId, orderStatus;
+        TextView tableNumber, tableStatus;
 
         public MyViewHolder(@NonNull View itemView, TablesInterface tablesInterface) {
             super(itemView);
 
-            tableId = itemView.findViewById(R.id.TableId);
-            orderStatus = itemView.findViewById(R.id.TableStatus);
+            tableNumber = itemView.findViewById(R.id.TableId);
+            tableStatus = itemView.findViewById(R.id.TableStatus);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {

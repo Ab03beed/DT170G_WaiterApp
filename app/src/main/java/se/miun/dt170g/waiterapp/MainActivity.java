@@ -1,5 +1,7 @@
 package se.miun.dt170g.waiterapp;
 
+import static java.lang.Thread.sleep;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,7 +13,6 @@ import android.view.View;
 
 import java.util.ArrayList;
 
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -20,45 +21,36 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import se.miun.dt170g.waiterapp.adapters.TablesAdapter;
 import se.miun.dt170g.waiterapp.adapters.TablesInterface;
 import se.miun.dt170g.waiterapp.class_models.ALaCarteItem;
-import se.miun.dt170g.waiterapp.class_models.TableModel;
+import se.miun.dt170g.waiterapp.class_models.TableItem;
 
 public class MainActivity extends AppCompatActivity implements TablesInterface {
 
-    ArrayList<TableModel> tableModels = new ArrayList<>();
-
     private final String WS_HOST = "http://192.168.0.101:8080/projektDT170G-1.0-SNAPSHOT/api/";
-    private final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0";
 
+    private ArrayList<TableItem> tableItems = new ArrayList<>();
 
-    private ArrayList<ALaCarteItem> ALaCarteItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         setTitle("Bord");
 
-        /*RecyclerView recyclerView = findViewById(R.id.TablesRV);
+        RecyclerView recyclerView = findViewById(R.id.TablesRV);
 
-        setUpOrderModels();
-
-        TablesAdapter adapter = new TablesAdapter(this, tableModels, this);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));*/
 
         fetchALaCarteItems();
 
+        TablesAdapter adapter = new TablesAdapter(this, tableItems, this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
     }
 
 
     public void fetchALaCarteItems(){
-
-
-
 
         //Creating Retrofit obj.
         Retrofit retrofit = new Retrofit.Builder()
@@ -67,29 +59,34 @@ public class MainActivity extends AppCompatActivity implements TablesInterface {
                 .build();
 
 
-
-
         FetchData fetchData = retrofit.create(FetchData.class);
 
-        Call<ArrayList<ALaCarteItem>> call = fetchData.get_drinks();
+        Call<ArrayList<TableItem>> call = fetchData.getTables();
 
-        call.enqueue(new Callback<ArrayList<ALaCarteItem>>() {
+        call.enqueue(new Callback<ArrayList<TableItem>>() {
             @Override
-            public void onResponse(Call<ArrayList<ALaCarteItem>> call, Response<ArrayList<ALaCarteItem>> response) {
+            public void onResponse(Call<ArrayList<TableItem>> call, Response<ArrayList<TableItem>> response) {
                 if (response.isSuccessful()) {
-                    Log.d("gg", "gggggggggggggggggggggggggggggggggggggggg");
+
+                    tableItems = response.body();
+
+                    /*for (int i = 0; i < tableItems.size(); i++) {
+                        Log.d("gg", i + ": " + tableItems.get(i).getTableNumber());
+
+                    }
+*/
+
                 }else{
-                    Log.d("gg", "not Successful");
+                    Log.d("Response", String.valueOf(response.code()));
                 }
             }
 
             @Override
-            public void onFailure(Call<ArrayList<ALaCarteItem>> call, Throwable t) {
-                Log.d("gg", "response faluire");
-                Log.d("gg", t.getMessage());
-
+            public void onFailure(Call<ArrayList<TableItem>> call, Throwable t) {
+                Log.d("Response", t.getMessage());
             }
         });
+
 
 
 
@@ -105,16 +102,16 @@ public class MainActivity extends AppCompatActivity implements TablesInterface {
 
 
 
-    private void setUpOrderModels(){
+    /*private void setUpOrderModels(){
 
         String[] tables = {"Bord Nr: 1", "Bord Nr: 2", "Bord Nr: 3", "Bord Nr: 4", "Bord Nr: 5", "Bord Nr: 6", "Bord Nr: 7", "Bord Nr: 8"};
         int[] tablesStatus = {1, 0, 1, 0, 1, 0, 1, 0};
 
         for (int i = 1; i <= tables.length; i++) {
-            tableModels.add(new TableModel(i,tablesStatus[i-1], tables[i-1]));
+            //tableItems.add(new TableItem(i,tablesStatus[i-1], tables[i-1]));
         }
     }
-
+*/
 
 
     @Override
