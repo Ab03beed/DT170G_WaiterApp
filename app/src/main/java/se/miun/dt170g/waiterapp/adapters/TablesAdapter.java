@@ -1,5 +1,6 @@
 package se.miun.dt170g.waiterapp.adapters;
 
+import android.app.Application;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -41,6 +43,7 @@ public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.MyViewHold
     public void onBindViewHolder(@NonNull TablesAdapter.MyViewHolder holder, int position) {
 
         holder.tableNumber.setText("Bord Nr: " + tableItems.get(position).getTableNumber());
+
         holder.tableStatus.setText("Bordsläge: " + tableItems.get(position).getTableStatus());
 
     }

@@ -58,7 +58,7 @@ public class InputAdapter extends RecyclerView.Adapter<InputAdapter.MyViewHolder
             super(itemView);
 
             itemName = itemView.findViewById(R.id.FoodName_input);
-            price = itemView.findViewById(R.id.FoodPrice_input);
+            price = itemView.findViewById(R.id.FoodPrice_Item);
             numberPicker = itemView.findViewById(R.id.FoodCount);
 
         }

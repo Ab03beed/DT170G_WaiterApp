@@ -36,7 +36,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
     public void onBindViewHolder(@NonNull ItemsAdapter.MyViewHolder holder, int position) {
 
         holder.itemName.setText(itemModels.get(position).getItemName());
-        holder.price.setText("Pris: " + String.valueOf(itemModels.get(position).getPrice()));
+        holder.price.setText("Pris: " + itemModels.get(position).getPrice());
     }
 
     @Override
@@ -51,8 +51,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            itemName = itemView.findViewById(R.id.FoodName_item);
-            price = itemView.findViewById(R.id.FoodPrice_input);
+            itemName = itemView.findViewById(R.id.FoodName_Item);
+            price = itemView.findViewById(R.id.FoodPrice_Item);
 
         }
     }

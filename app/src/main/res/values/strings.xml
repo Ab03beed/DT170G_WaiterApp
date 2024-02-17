@@ -17,8 +17,8 @@
     <string name="FoodPrice_input">Pris</string>
 
     <!-- IDs for item_template -->
-    <string name="FoodName_item">product name: </string>
-    <string name="FoodPrice_item">price: </string>
+    <string name="FoodName_Item">product name: </string>
+    <string name="FoodPrice_Item">price: </string>
     <string name="FoodDeleteBtn">Ta bort</string>
 
     <!-- IDs for table_template -->
