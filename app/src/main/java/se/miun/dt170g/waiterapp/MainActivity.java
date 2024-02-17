@@ -39,27 +39,19 @@ public class MainActivity extends AppCompatActivity implements TablesInterface {
 
         RecyclerView recyclerView = findViewById(R.id.TablesRV);
 
-
-        fetchALaCarteItems();
-
-        TablesAdapter adapter = new TablesAdapter(this, tableItems, this);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        fetchALaCarteItems(recyclerView);
 
 
     }
 
 
-    public void fetchALaCarteItems(){
+    public void fetchALaCarteItems(RecyclerView recyclerView){
 
         //Creating Retrofit obj.
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(WS_HOST)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        Retro retrofit = new Retro(WS_HOST);
 
 
-        FetchData fetchData = retrofit.create(FetchData.class);
+        FetchData fetchData = retrofit.getRetrofit().create(FetchData.class);
 
         Call<ArrayList<TableItem>> call = fetchData.getTables();
 
@@ -70,11 +62,11 @@ public class MainActivity extends AppCompatActivity implements TablesInterface {
 
                     tableItems = response.body();
 
-                    /*for (int i = 0; i < tableItems.size(); i++) {
-                        Log.d("gg", i + ": " + tableItems.get(i).getTableNumber());
 
-                    }
-*/
+                    TablesAdapter adapter = new TablesAdapter(MainActivity.this, tableItems, MainActivity.this);
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
 
                 }else{
                     Log.d("Response", String.valueOf(response.code()));
@@ -100,18 +92,6 @@ public class MainActivity extends AppCompatActivity implements TablesInterface {
         startActivity(i);
     }
 
-
-
-    /*private void setUpOrderModels(){
-
-        String[] tables = {"Bord Nr: 1", "Bord Nr: 2", "Bord Nr: 3", "Bord Nr: 4", "Bord Nr: 5", "Bord Nr: 6", "Bord Nr: 7", "Bord Nr: 8"};
-        int[] tablesStatus = {1, 0, 1, 0, 1, 0, 1, 0};
-
-        for (int i = 1; i <= tables.length; i++) {
-            //tableItems.add(new TableItem(i,tablesStatus[i-1], tables[i-1]));
-        }
-    }
-*/
 
 
     @Override

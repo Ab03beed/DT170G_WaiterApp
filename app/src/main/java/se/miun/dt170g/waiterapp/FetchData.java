@@ -3,6 +3,8 @@ package se.miun.dt170g.waiterapp;
 import java.util.ArrayList;
 
 import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import se.miun.dt170g.waiterapp.class_models.ALaCarteItem;
@@ -20,6 +22,6 @@ public interface FetchData {
     Call<ArrayList<ALaCarteItem>> getDrinks();
 
 
-
-
 }
+
+
