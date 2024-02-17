@@ -34,6 +34,7 @@ public class NewOrder extends AppCompatActivity {
         RecyclerView recyclerView1 = findViewById(R.id.ForRV);
         RecyclerView recyclerView2 = findViewById(R.id.HuvudRV);
         RecyclerView recyclerView3 = findViewById(R.id.EfterRV);
+        RecyclerView recyclerView4 = findViewById(R.id.DrinksRV);
 
         setUpOrderInput();
 
@@ -50,6 +51,8 @@ public class NewOrder extends AppCompatActivity {
         recyclerView3.setAdapter(adapter);
         recyclerView3.setLayoutManager(new LinearLayoutManager(this));
 
+        recyclerView4.setAdapter(adapter);
+        recyclerView4.setLayoutManager(new LinearLayoutManager(this));
 
         //numberPicker = findViewById(R.id.numberPicker);
         

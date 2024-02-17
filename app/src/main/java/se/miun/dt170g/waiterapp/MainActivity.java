@@ -1,18 +1,13 @@
 package se.miun.dt170g.waiterapp;
 
-import static java.lang.Thread.sleep;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-
 import java.util.ArrayList;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,7 +20,7 @@ import se.miun.dt170g.waiterapp.class_models.TableItem;
 
 public class MainActivity extends AppCompatActivity implements TablesInterface {
 
-    private final String WS_HOST = "http://192.168.0.101:8080/projektDT170G-1.0-SNAPSHOT/api/";
+    private final String WS_HOST = "http://192.168.0.104:8080/projektDT170G-1.0-SNAPSHOT/api/";
 
     private ArrayList<TableItem> tableItems = new ArrayList<>();
 
@@ -34,13 +29,9 @@ public class MainActivity extends AppCompatActivity implements TablesInterface {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         setTitle("Bord");
-
         RecyclerView recyclerView = findViewById(R.id.TablesRV);
-
         fetchALaCarteItems(recyclerView);
-
 
     }
 
@@ -48,10 +39,12 @@ public class MainActivity extends AppCompatActivity implements TablesInterface {
     public void fetchALaCarteItems(RecyclerView recyclerView){
 
         //Creating Retrofit obj.
-        Retro retrofit = new Retro(WS_HOST);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(WS_HOST)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-
-        FetchData fetchData = retrofit.getRetrofit().create(FetchData.class);
+        FetchData fetchData = retrofit.create(FetchData.class);
 
         Call<ArrayList<TableItem>> call = fetchData.getTables();
 
@@ -62,12 +55,14 @@ public class MainActivity extends AppCompatActivity implements TablesInterface {
 
                     tableItems = response.body();
 
-
                     TablesAdapter adapter = new TablesAdapter(MainActivity.this, tableItems, MainActivity.this);
                     recyclerView.setAdapter(adapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
-
+                    /*for (int i = 0; i < tableItems.size(); i++) {
+                        Log.d("gg", i + ": " + tableItems.get(i).getTableNumber());
+                    }
+*/
                 }else{
                     Log.d("Response", String.valueOf(response.code()));
                 }
@@ -79,10 +74,6 @@ public class MainActivity extends AppCompatActivity implements TablesInterface {
             }
         });
 
-
-
-
-
     }
 
 
@@ -92,6 +83,16 @@ public class MainActivity extends AppCompatActivity implements TablesInterface {
         startActivity(i);
     }
 
+    /*private void setUpOrderModels(){
+
+        String[] tables = {"Bord Nr: 1", "Bord Nr: 2", "Bord Nr: 3", "Bord Nr: 4", "Bord Nr: 5", "Bord Nr: 6", "Bord Nr: 7", "Bord Nr: 8"};
+        int[] tablesStatus = {1, 0, 1, 0, 1, 0, 1, 0};
+
+        for (int i = 1; i <= tables.length; i++) {
+            //tableItems.add(new TableItem(i,tablesStatus[i-1], tables[i-1]));
+        }
+    }
+*/
 
 
     @Override
@@ -99,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements TablesInterface {
         Intent i = new Intent(this, NewOrder.class);
 
         i.putExtra("TableNr",position+1);
-
         startActivity(i);
     }
 }
