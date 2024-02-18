@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import se.miun.dt170g.waiterapp.R;
+import se.miun.dt170g.waiterapp.class_models.ALaCarteItem;
 import se.miun.dt170g.waiterapp.class_models.ItemModel;
 
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder> {
