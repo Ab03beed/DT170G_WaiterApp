@@ -4,8 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -14,6 +18,8 @@ import se.miun.dt170g.waiterapp.adapters.InputAdapter;
 import se.miun.dt170g.waiterapp.class_models.ALaCarteModel;
 import se.miun.dt170g.waiterapp.class_models.DrinkModel;
 import se.miun.dt170g.waiterapp.class_models.InputModel;
+import se.miun.dt170g.waiterapp.class_models.OrderModel;
+import se.miun.dt170g.waiterapp.class_models.TableModel;
 import se.miun.dt170g.waiterapp.fetch.FetchData;
 import se.miun.dt170g.waiterapp.fetch.Retro;
 
@@ -29,7 +35,6 @@ public class NewOrder extends AppCompatActivity {
     private final String WS_HOST = "http://192.168.0.101:8080/projektDT170G-1.0-SNAPSHOT/api/";
     private Retro retrofit = new Retro(WS_HOST);
     private FetchData fetchData = retrofit.getRetrofit().create(FetchData.class);
-
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +55,17 @@ public class NewOrder extends AppCompatActivity {
         fetchA_LA_CARTE_ITEMS(forRV, huvudRV, efterRV);
         fetchDrinks(drinksRV);
 
+        Button insertBtn = (Button) findViewById(R.id.SendBtn);
+        insertBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                insertOrder(v);
+            }
+        });
+
     }
 
     public void fetchA_LA_CARTE_ITEMS(RecyclerView forRV, RecyclerView huvudRV, RecyclerView efterRV){
-
         Call<ArrayList<ALaCarteModel>> call = fetchData.getA_LA_CARTE_ITEMS();
 
         call.enqueue(new Callback<ArrayList<ALaCarteModel>>() {
@@ -72,7 +84,6 @@ public class NewOrder extends AppCompatActivity {
                         }else{
                             inputEfter.add(new InputModel(item.getName(), item.getPrice(), findViewById(R.id.FoodCount)));
                         }
-                        Log.d("gg", item.getType());
                     }
 
                     //Creating adapters for each inputArray.
@@ -129,6 +140,59 @@ public class NewOrder extends AppCompatActivity {
             @Override
             public void onFailure(Call<ArrayList<DrinkModel>> call, Throwable t) {
                 Log.d("Response", t.getMessage());
+            }
+        });
+    }
+
+    public void insertOrder(View view){
+
+        //Table data
+        int tableNr = getIntent().getIntExtra("TableNr", 0);
+        int tableSession = getIntent().getIntExtra("TableSession", 0);
+        int tableSize = getIntent().getIntExtra("TableSize", 0);
+
+        //Comment
+        EditText textInput = findViewById(R.id.CommentIn);
+        String comment = String.valueOf(textInput.getText());
+
+        Call<Void> call = fetchData.addOrder(new OrderModel(0,"Skickat",tableNr,comment));
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    //Change table status
+                    updateTableStatus(tableSession, new TableModel(tableSession,tableNr,tableSize, 1));
+
+                    //Go back to the MainActivity
+                    Intent intent = new Intent(NewOrder.this, MainActivity.class);
+                    startActivity(intent);
+                } else {
+                    Log.d("response","NotSuccessful!");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.d("response","Failure!");
+            }
+        });
+    }
+
+
+
+    public void updateTableStatus(int tableId, TableModel tableModel){
+        Call<Void> call = fetchData.updateTableStatus(tableId, tableModel);
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
             }
         });
     }

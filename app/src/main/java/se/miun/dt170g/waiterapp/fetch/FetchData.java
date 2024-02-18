@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.PUT;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import se.miun.dt170g.waiterapp.class_models.ALaCarteModel;
 import se.miun.dt170g.waiterapp.class_models.DrinkModel;
+import se.miun.dt170g.waiterapp.class_models.OrderModel;
 import se.miun.dt170g.waiterapp.class_models.TableModel;
 
 public interface FetchData {
@@ -24,7 +27,11 @@ public interface FetchData {
     @POST("drinks")
     Call<Void> addDrink(@Body DrinkModel newDrink);
 
+    @POST("orders")
+    Call<Void> addOrder(@Body OrderModel newOrder);
 
+    @PUT("tables/{id}")
+    Call<Void> updateTableStatus(@Path("id") int tableId, @Body TableModel tableModel);
 }
 
 

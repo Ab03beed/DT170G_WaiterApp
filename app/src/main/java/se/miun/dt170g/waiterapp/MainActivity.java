@@ -39,57 +39,21 @@ public class MainActivity extends AppCompatActivity implements TablesInterface {
 
         fetchTables(recyclerView);
 
-
-        Button b = (Button) findViewById(R.id.button2);
-        b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                test(v);
-            }
-        });
-
-
-    }
-
-    public void test(View view){
-
-        Call<Void> call = fetchData.addDrink(new DrinkModel(0,"XXL","desc",132));
-
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    Log.d("gg","Successful!");
-                } else {
-                    Log.d("gg","NotSuccessful!");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Log.d("gg","Failure!");
-            }
-        });
-
-
     }
 
     public void fetchTables(RecyclerView recyclerView){
-
         Call<ArrayList<TableModel>> call = fetchData.getTables();
 
         call.enqueue(new Callback<ArrayList<TableModel>>() {
             @Override
             public void onResponse(Call<ArrayList<TableModel>> call, Response<ArrayList<TableModel>> response) {
                 if (response.isSuccessful()) {
-
+                    //Fill the ArrayList with tables from the API.
                     tableModels = response.body();
-
 
                     TablesAdapter adapter = new TablesAdapter(MainActivity.this, tableModels, MainActivity.this);
                     recyclerView.setAdapter(adapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-
 
                 }else{
                     Log.d("Response", String.valueOf(response.code()));
@@ -101,31 +65,24 @@ public class MainActivity extends AppCompatActivity implements TablesInterface {
                 Log.d("Response", t.getMessage());
             }
         });
-
     }
-
-
 
     @Override
     public void onItemClick(int position) {
-
-
         //Checks if the table is empty or not, 0 refers to empty.
         if(tableModels.get(position).getTableStatus() == 0){
             Intent i = new Intent(this, NewOrder.class);
-            i.putExtra("TableNr",position+1);
+            i.putExtra("TableSession",tableModels.get(position).getSessionId());
+            i.putExtra("TableNr",tableModels.get(position).getTableNumber());
+            i.putExtra("TableSize",tableModels.get(position).getTableSize());
             startActivity(i);
 
         }else{
-
             Intent i = new Intent(this, OrderDetails.class);
-            i.putExtra("TableNr",position+1);
+            i.putExtra("TableSession",tableModels.get(position).getSessionId());
+            i.putExtra("TableNr",tableModels.get(position).getTableNumber());
+            i.putExtra("TableSize",tableModels.get(position).getTableSize());
             startActivity(i);
-
         }
-
-
-
-
     }
 }

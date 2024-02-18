@@ -11,6 +11,7 @@
 
     <!-- IDs for activity_order_derails -->
     <string name="Add">+</string>
+    <string name="EndOrder">Avsluta</string>
 
     <!-- IDs for input_template -->
     <string name="FoodName_input">Maträtt</string>
