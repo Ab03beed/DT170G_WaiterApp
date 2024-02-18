@@ -1,6 +1,6 @@
 package se.miun.dt170g.waiterapp.class_models;
 
-public class TableItem {
+public class TableModel {
 
     private int sessionId;
 
@@ -11,7 +11,7 @@ public class TableItem {
     private int tableStatus;
 
 
-    public TableItem(int sessionId, int tableNumber, int tableSize, int tableStatus) {
+    public TableModel(int sessionId, int tableNumber, int tableSize, int tableStatus) {
         this.sessionId = sessionId;
         this.tableNumber = tableNumber;
         this.tableSize = tableSize;

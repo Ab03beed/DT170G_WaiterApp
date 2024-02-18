@@ -1,6 +1,5 @@
 package se.miun.dt170g.waiterapp.adapters;
 
-import android.app.Application;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,24 +7,23 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 import se.miun.dt170g.waiterapp.R;
-import se.miun.dt170g.waiterapp.class_models.TableItem;
+import se.miun.dt170g.waiterapp.class_models.TableModel;
 
 public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.MyViewHolder> {
 
     private final TablesInterface tablesInterface;
 
     private Context context;
-    private ArrayList<TableItem> tableItems;
+    private ArrayList<TableModel> tableModels;
 
-    public TablesAdapter(Context context, ArrayList<TableItem> tableItems, TablesInterface tablesInterface){
+    public TablesAdapter(Context context, ArrayList<TableModel> tableModels, TablesInterface tablesInterface){
         this.context = context;
-        this.tableItems = tableItems;
+        this.tableModels = tableModels;
         this.tablesInterface = tablesInterface;
     }
 
@@ -42,15 +40,15 @@ public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.MyViewHold
     @Override
     public void onBindViewHolder(@NonNull TablesAdapter.MyViewHolder holder, int position) {
 
-        holder.tableNumber.setText("Bord Nr: " + tableItems.get(position).getTableNumber());
+        holder.tableNumber.setText("Bord Nr: " + tableModels.get(position).getTableNumber());
 
-        holder.tableStatus.setText("Bordsläge: " + tableItems.get(position).getTableStatus());
+        holder.tableStatus.setText("Bordsläge: " + tableModels.get(position).getTableStatus());
 
     }
 
     @Override
     public int getItemCount() {
-        return tableItems.size();
+        return tableModels.size();
     }
 
 
