@@ -16,9 +16,10 @@ import se.miun.dt170g.waiterapp.class_models.TableItem;
 import se.miun.dt170g.waiterapp.fetch.FetchData;
 import se.miun.dt170g.waiterapp.fetch.Retro;
 
+
 public class MainActivity extends AppCompatActivity implements TablesInterface {
 
-    private final String WS_HOST = "http://192.168.0.101:8080/projektDT170G-1.0-SNAPSHOT/api/";
+    private final String WS_HOST = "http://192.168.0.104:8080/projektDT170G-1.0-SNAPSHOT/api/";
 
     private ArrayList<TableItem> tableItems = new ArrayList<>();
 
@@ -33,7 +34,6 @@ public class MainActivity extends AppCompatActivity implements TablesInterface {
         RecyclerView recyclerView = findViewById(R.id.TablesRV);
 
         fetchTables(recyclerView);
-
 
     }
 
@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements TablesInterface {
             }
         });
 
-
     }
 
 
@@ -93,9 +92,6 @@ public class MainActivity extends AppCompatActivity implements TablesInterface {
             startActivity(i);
 
         }
-
-
-
 
     }
 }

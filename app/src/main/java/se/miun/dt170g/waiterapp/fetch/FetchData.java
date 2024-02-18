@@ -8,6 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import se.miun.dt170g.waiterapp.class_models.ALaCarteItem;
+import se.miun.dt170g.waiterapp.class_models.DrinkModel;
 import se.miun.dt170g.waiterapp.class_models.TableItem;
 
 public interface FetchData {
@@ -19,7 +20,7 @@ public interface FetchData {
     Call<ArrayList<ALaCarteItem>> get_A_LA_CARTE_ITEMS();
 
     @GET("drinks")
-    Call<ArrayList<ALaCarteItem>> getDrinks();
+    Call<ArrayList<DrinkModel>> getDrinks();
 
 
 }
