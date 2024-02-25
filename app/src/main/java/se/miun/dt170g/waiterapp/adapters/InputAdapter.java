@@ -1,11 +1,15 @@
 package se.miun.dt170g.waiterapp.adapters;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +23,8 @@ public class InputAdapter extends RecyclerView.Adapter<InputAdapter.MyViewHolder
 
     private Context context;
     private ArrayList<InputModel> inputModels;
+
+    private boolean isChanged = false;
 
     public InputAdapter(Context context, ArrayList<InputModel> inputModels){
         this.context = context;
@@ -41,7 +47,33 @@ public class InputAdapter extends RecyclerView.Adapter<InputAdapter.MyViewHolder
     public void onBindViewHolder(@NonNull InputAdapter.MyViewHolder holder, int position) {
         holder.itemName.setText(inputModels.get(position).getItemName());
         holder.price.setText("Pris: " + String.valueOf(inputModels.get(position).getPrice()));
-        holder.numberPicker.setValue(inputModels.get(position).getItemCount());
+
+
+        holder.inputCount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                //Toast.makeText(context.getApplicationContext(), "bEFORE", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                isChanged = true;
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(isChanged){
+                    try{
+                        inputModels.get(position).setCount(Integer.parseInt(s.toString()));
+
+                    }catch (NumberFormatException e){
+
+                    }
+
+                    isChanged = false; //Switch back isChanged to false.
+                }
+            }
+        });
     }
 
     @Override
@@ -52,14 +84,16 @@ public class InputAdapter extends RecyclerView.Adapter<InputAdapter.MyViewHolder
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
         private TextView itemName, price;
-        private NumberPicker numberPicker;
+        private EditText inputCount;
+
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             itemName = itemView.findViewById(R.id.FoodName_input);
             price = itemView.findViewById(R.id.FoodPrice_Item);
-            numberPicker = itemView.findViewById(R.id.FoodCount);
+            inputCount = itemView.findViewById(R.id.FoodCount);
+
 
         }
     }

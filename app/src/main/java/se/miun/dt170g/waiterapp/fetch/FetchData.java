@@ -10,6 +10,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 import se.miun.dt170g.waiterapp.class_models.ALaCarteModel;
 import se.miun.dt170g.waiterapp.class_models.DrinkModel;
+import se.miun.dt170g.waiterapp.class_models.OrderDTO;
 import se.miun.dt170g.waiterapp.class_models.OrderModel;
 import se.miun.dt170g.waiterapp.class_models.TableModel;
 
@@ -27,8 +28,8 @@ public interface FetchData {
     @POST("drinks")
     Call<Void> addDrink(@Body DrinkModel newDrink);
 
-    @POST("orders")
-    Call<Void> addOrder(@Body OrderModel newOrder);
+    @POST("order")
+    Call<Void> addOrder(@Body OrderDTO newOrder);
 
     @PUT("tables/{id}")
     Call<Void> updateTableStatus(@Path("id") int tableId, @Body TableModel tableModel);

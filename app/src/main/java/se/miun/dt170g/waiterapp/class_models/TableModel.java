@@ -8,14 +8,14 @@ public class TableModel {
 
     private int tableSize;
 
-    private int tableStatus;
+    private String status;
 
 
-    public TableModel(int sessionId, int tableNumber, int tableSize, int tableStatus) {
+    public TableModel(int sessionId, int tableNumber, int tableSize, String status) {
         this.sessionId = sessionId;
         this.tableNumber = tableNumber;
         this.tableSize = tableSize;
-        this.tableStatus = tableStatus;
+        this.status = status;
     }
 
     public int getSessionId() {
@@ -42,12 +42,12 @@ public class TableModel {
         this.tableSize = tableSize;
     }
 
-    public int getTableStatus() {
-        return tableStatus;
+    public String getTableStatus() {
+        return status;
     }
 
-    public void setTableStatus(int tableStatus) {
-        this.tableStatus = tableStatus;
+    public void setTableStatus(String status) {
+        this.status = status;
     }
 
 

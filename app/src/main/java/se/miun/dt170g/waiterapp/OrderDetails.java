@@ -25,8 +25,7 @@ public class OrderDetails extends AppCompatActivity {
 
     ArrayList<ItemModel> itemModels = new ArrayList<>();
 
-    private final String WS_HOST = "http://192.168.0.101:8080/projektDT170G-1.0-SNAPSHOT/api/";
-    private Retro retrofit = new Retro(WS_HOST);
+    private Retro retrofit = new Retro();
     private FetchData fetchData = retrofit.getRetrofit().create(FetchData.class);
 
     @Override
@@ -80,7 +79,7 @@ public class OrderDetails extends AppCompatActivity {
 
 
         //Update table status
-        updateTableStatus(tableSession, new TableModel(tableSession, tableNr, tableSize, 0));
+        updateTableStatus(tableSession, new TableModel(tableSession, tableNr, tableSize, "Ledig"));
 
         //Go back to the MainActivity
         Intent intent = new Intent(OrderDetails.this, MainActivity.class);

@@ -10,6 +10,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.NumberPicker;
+
+import org.checkerframework.checker.units.qual.A;
+
 import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -18,12 +22,15 @@ import se.miun.dt170g.waiterapp.adapters.InputAdapter;
 import se.miun.dt170g.waiterapp.class_models.ALaCarteModel;
 import se.miun.dt170g.waiterapp.class_models.DrinkModel;
 import se.miun.dt170g.waiterapp.class_models.InputModel;
+import se.miun.dt170g.waiterapp.class_models.OrderDTO;
 import se.miun.dt170g.waiterapp.class_models.OrderModel;
 import se.miun.dt170g.waiterapp.class_models.TableModel;
 import se.miun.dt170g.waiterapp.fetch.FetchData;
 import se.miun.dt170g.waiterapp.fetch.Retro;
 
 public class NewOrder extends AppCompatActivity {
+    private static int orderID = 0;
+
     private ArrayList<InputModel> inputFor = new ArrayList<>();
     private ArrayList<InputModel> inputEfter = new ArrayList<>();
     private ArrayList<InputModel> inputHuvud = new ArrayList<>();
@@ -32,8 +39,7 @@ public class NewOrder extends AppCompatActivity {
     private ArrayList<ALaCarteModel> aLaCarteModels = new ArrayList<>();
     private ArrayList<DrinkModel> drinkModels = new ArrayList<>();
 
-    private final String WS_HOST = "http://192.168.0.101:8080/projektDT170G-1.0-SNAPSHOT/api/";
-    private Retro retrofit = new Retro(WS_HOST);
+    private Retro retrofit = new Retro();
     private FetchData fetchData = retrofit.getRetrofit().create(FetchData.class);
     @SuppressLint("MissingInflatedId")
     @Override
@@ -78,11 +84,11 @@ public class NewOrder extends AppCompatActivity {
                     //Check the type of the aLaCarte and add it to the right ArrayList.
                     for (ALaCarteModel item: aLaCarteModels ){
                         if( item.getType().equals("förrätt")){
-                            inputFor.add(new InputModel(item.getName(), item.getPrice(), findViewById(R.id.FoodCount)));
+                            inputFor.add(new InputModel(item.getaLaCarteID(), item.getPrice(),  item.getName(), "", ""));
                         }else if(item.getType().equals("huvudrätt")){
-                            inputHuvud.add(new InputModel(item.getName(), item.getPrice(), findViewById(R.id.FoodCount)));
+                            inputHuvud.add(new InputModel(item.getaLaCarteID(), item.getPrice(),  item.getName(), "", ""));
                         }else{
-                            inputEfter.add(new InputModel(item.getName(), item.getPrice(), findViewById(R.id.FoodCount)));
+                            inputEfter.add(new InputModel(item.getaLaCarteID(), item.getPrice(),  item.getName(), "", ""));
                         }
                     }
 
@@ -99,14 +105,15 @@ public class NewOrder extends AppCompatActivity {
                     efterRV.setAdapter(efterAdapter);
                     efterRV.setLayoutManager(new LinearLayoutManager(NewOrder.this));
 
+                    Log.d("newOrder responseeeeee", String.valueOf(response.code()));
                 }else{
-                    Log.d("Response", String.valueOf(response.code()));
+                    Log.d("newOrder response", String.valueOf(response.code()));
                 }
             }
 
             @Override
             public void onFailure(Call<ArrayList<ALaCarteModel>> call, Throwable t) {
-                Log.d("Response", t.getMessage());
+                Log.d("newOrder response", t.getMessage());
             }
         });
 
@@ -124,7 +131,7 @@ public class NewOrder extends AppCompatActivity {
 
                     //Add the drinks to the inputDrinks ArrayList.
                     for (DrinkModel item: drinkModels){
-                        inputDrinks.add(new InputModel(item.getName(), item.getPrice(),findViewById(R.id.FoodCount)));
+                        inputDrinks.add(new InputModel(item.getDrink_id(), item.getPrice(),  item.getName(), "", ""));
                     }
 
                     //Creating adapter for the inputDrinks ArrayList.
@@ -144,10 +151,15 @@ public class NewOrder extends AppCompatActivity {
         });
     }
 
+
     public void insertOrder(View view){
+        OrderDTO newOrder = new OrderDTO();
+        ArrayList<ALaCarteModel> foods = new ArrayList<>();
+        ArrayList<DrinkModel> drinks = new ArrayList<>();
+
 
         //Table data
-        int tableNr = getIntent().getIntExtra("TableNr", 0);
+        int tableId = getIntent().getIntExtra("TableNr", 0);
         int tableSession = getIntent().getIntExtra("TableSession", 0);
         int tableSize = getIntent().getIntExtra("TableSize", 0);
 
@@ -155,26 +167,58 @@ public class NewOrder extends AppCompatActivity {
         EditText textInput = findViewById(R.id.CommentIn);
         String comment = String.valueOf(textInput.getText());
 
-        Call<Void> call = fetchData.addOrder(new OrderModel(0,"Skickat",tableNr,comment));
+        for (int i = 0; i < inputFor.size(); i++) {
+            Log.d("gg", inputFor.get(i).getItemName() + " : " + inputFor.get(i).getCount());
+            foods.add(new ALaCarteModel(inputFor.get(i).getId(), inputFor.get(i).getPrice(), inputFor.get(i).getItemName(), inputFor.get(i).getType(), inputFor.get(i).getDescription()));
+        }
+        for (int i = 0; i < inputHuvud.size(); i++) {
+            Log.d("gg", inputHuvud.get(i).getItemName() + " : " + inputHuvud.get(i).getCount());
+            foods.add(new ALaCarteModel(inputHuvud.get(i).getId(), inputHuvud.get(i).getPrice(), inputHuvud.get(i).getItemName(), inputHuvud.get(i).getType(), inputHuvud.get(i).getDescription()));
+        }
+        for (int i = 0; i < inputEfter.size(); i++) {
+            Log.d("gg", inputEfter.get(i).getItemName() + " : " + inputEfter.get(i).getCount());
+            foods.add(new ALaCarteModel(inputEfter.get(i).getId(), inputEfter.get(i).getPrice(), inputEfter.get(i).getItemName(), inputEfter.get(i).getType(), inputEfter.get(i).getDescription()));
+        }
+        for (int i = 0; i < inputDrinks.size(); i++) {
+            Log.d("gg", inputDrinks.get(i).getItemName() + " : " + inputDrinks.get(i).getCount());
+            drinks.add(new DrinkModel(inputDrinks.get(i).getId(), inputDrinks.get(i).getItemName(), inputDrinks.get(i).getDescription(), inputDrinks.get(i).getPrice()));
+        }
+
+
+
+        //Setting the order details
+        newOrder.setOrder_ID(++orderID);
+        newOrder.setStatusAppetizer("Skickat");
+        newOrder.setStatusMain("Skickat");
+        newOrder.setStatusDessert("Skickat");
+        newOrder.setRestaurantTableId(tableId);
+        newOrder.setComment(comment);
+        newOrder.setFoods(foods);
+        newOrder.setDrinks(drinks);
+
+
+
+
+        Call<Void> call = fetchData.addOrder(newOrder);
 
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     //Change table status
-                    updateTableStatus(tableSession, new TableModel(tableSession,tableNr,tableSize, 1));
+                    updateTableStatus(tableSession, new TableModel(tableSession,tableId,tableSize, "Aktiv"));
 
                     //Go back to the MainActivity
                     Intent intent = new Intent(NewOrder.this, MainActivity.class);
                     startActivity(intent);
                 } else {
-                    Log.d("response","NotSuccessful!");
+                    Log.d("insert Response","NotSuccessful!");
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Log.d("response","Failure!");
+                Log.d("insert Response","Failure!");
             }
         });
     }
@@ -196,4 +240,9 @@ public class NewOrder extends AppCompatActivity {
             }
         });
     }
+
+
+
+
+
 }

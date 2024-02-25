@@ -16,6 +16,7 @@
     <!-- IDs for input_template -->
     <string name="FoodName_input">Maträtt</string>
     <string name="FoodPrice_input">Pris</string>
+    <string name="Count">Antal</string>
 
     <!-- IDs for item_template -->
     <string name="FoodName_Item">product name: </string>
@@ -24,7 +25,9 @@
 
     <!-- IDs for table_template -->
     <string name="TableId">Bord nr: </string>
-    <string name="TableStatus">Bordsläge: </string>
+
+
+
 
 
 

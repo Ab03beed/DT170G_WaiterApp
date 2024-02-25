@@ -3,19 +3,23 @@ package se.miun.dt170g.waiterapp.class_models;
 import android.widget.NumberPicker;
 
 public class InputModel {
-
-    private String itemName;
+    private int id;
     private int price;
-    private NumberPicker numberPicker;
-    private int itemCount;
+    private String itemName;
+    private String type;
+    private String description;
+    private int count;
 
-    public InputModel(String itemName, int price, NumberPicker numberPicker) {
-        this.itemName = itemName;
+    public InputModel(int id, int price, String itemName, String type, String description) {
+        this.id = id;
         this.price = price;
-       // this.itemCount = numberPicker.getValue();
-
-        this.numberPicker = numberPicker;
+        this.itemName = itemName;
+        this.type = type;
+        this.description = description;
     }
+
+
+
 
     public String getItemName() {
         return itemName;
@@ -25,12 +29,43 @@ public class InputModel {
         return price;
     }
 
-    public int getItemCount() {
-        return itemCount;
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
-    public NumberPicker getNumberPicker() {
-        return numberPicker;
+    public void setPrice(int price) {
+        this.price = price;
     }
 
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

@@ -1,16 +1,20 @@
 package se.miun.dt170g.waiterapp.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import se.miun.dt170g.waiterapp.MainActivity;
 import se.miun.dt170g.waiterapp.R;
 import se.miun.dt170g.waiterapp.class_models.TableModel;
 
@@ -42,7 +46,14 @@ public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.MyViewHold
 
         holder.tableNumber.setText("Bord Nr: " + tableModels.get(position).getTableNumber());
 
-        holder.tableStatus.setText("Bordsläge: " + tableModels.get(position).getTableStatus());
+        if(tableModels.get(position).getTableStatus().equals("Ledig")){
+            holder.tableCard.setCardBackgroundColor(ContextCompat.getColor(context.getApplicationContext(), R.color.green));
+        }else if (tableModels.get(position).getTableStatus().equals("Aktiv")){
+            holder.tableCard.setCardBackgroundColor(ContextCompat.getColor(context.getApplicationContext(), R.color.orange));
+        }else if (tableModels.get(position).getTableStatus().equals("Bokat")) {
+            holder.tableCard.setCardBackgroundColor(ContextCompat.getColor(context.getApplicationContext(), R.color.red));
+        }
+
 
     }
 
@@ -54,13 +65,14 @@ public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.MyViewHold
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView tableNumber, tableStatus;
+        TextView tableNumber;
+        CardView tableCard;
 
         public MyViewHolder(@NonNull View itemView, TablesInterface tablesInterface) {
             super(itemView);
 
             tableNumber = itemView.findViewById(R.id.TableId);
-            tableStatus = itemView.findViewById(R.id.TableStatus);
+            tableCard = itemView.findViewById(R.id.TableCard);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {

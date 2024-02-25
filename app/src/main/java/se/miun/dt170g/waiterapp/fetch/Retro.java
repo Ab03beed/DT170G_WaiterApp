@@ -6,9 +6,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Retro {
 
 
+    private final String WS_HOST = "http://192.168.1.73:8080/projektDT170G-1.0-SNAPSHOT/api/";
     private Retrofit retrofit;
 
-    public Retro(String WS_HOST) {
+    public Retro() {
          retrofit = new Retrofit.Builder()
                 .baseUrl(WS_HOST)
                 .addConverterFactory(GsonConverterFactory.create())

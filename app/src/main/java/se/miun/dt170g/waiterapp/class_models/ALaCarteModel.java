@@ -1,6 +1,8 @@
 package se.miun.dt170g.waiterapp.class_models;
 
 
+import java.util.Collection;
+
 /**
  * this class represents a menu item in the a la carte menu
  */
@@ -12,7 +14,6 @@ public class ALaCarteModel {
     private String description;
 
 
-
     public ALaCarteModel(int aLaCarteID, int price, String name, String type, String description) {
         this.aLaCarteID = aLaCarteID;
         this.price = price;
@@ -20,7 +21,6 @@ public class ALaCarteModel {
         this.type = type;
         this.description = description;
     }
-
 
     public String getName() {
         return name;

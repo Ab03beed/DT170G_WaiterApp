@@ -6,4 +6,8 @@
     <color name="text_color_price">#555555</color>
     <color name="button_background_color">#000000</color>
     <color name="button_text_color">#FFFFFF</color>
+    <color name="green">#9CFF9C</color>
+    <color name="orange">#DDA640</color>
+    <color name="red">#FF4F4F</color>
+
 </resources>

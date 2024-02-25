@@ -24,8 +24,7 @@ public class MainActivity extends AppCompatActivity implements TablesInterface {
 
     private ArrayList<TableModel> tableModels = new ArrayList<>();
 
-    private final String WS_HOST = "http://192.168.0.101:8080/projektDT170G-1.0-SNAPSHOT/api/";
-    private Retro retrofit = new Retro(WS_HOST);
+    private Retro retrofit = new Retro();
     private FetchData fetchData = retrofit.getRetrofit().create(FetchData.class);
 
     @Override
@@ -56,13 +55,13 @@ public class MainActivity extends AppCompatActivity implements TablesInterface {
                     recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
                 }else{
-                    Log.d("Response", String.valueOf(response.code()));
+                    Log.d("fetchTables res", String.valueOf(response.code()));
                 }
             }
 
             @Override
             public void onFailure(Call<ArrayList<TableModel>> call, Throwable t) {
-                Log.d("Response", t.getMessage());
+                Log.d("fetchTables res", t.getMessage());
             }
         });
     }
@@ -70,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements TablesInterface {
     @Override
     public void onItemClick(int position) {
         //Checks if the table is empty or not, 0 refers to empty.
-        if(tableModels.get(position).getTableStatus() == 0){
+        if(tableModels.get(position).getTableStatus().equals("Ledig")){
             Intent i = new Intent(this, NewOrder.class);
             i.putExtra("TableSession",tableModels.get(position).getSessionId());
             i.putExtra("TableNr",tableModels.get(position).getTableNumber());
