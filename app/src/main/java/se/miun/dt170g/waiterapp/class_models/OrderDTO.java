@@ -16,12 +16,14 @@ public class OrderDTO {
     private int restaurantTableId;
 
     private String comment;
+    private boolean orderStatus;
 
-    private ArrayList<ALaCarteModel> foods;
+    private ArrayList<ALaCarteItem> foods;
 
     private ArrayList<DrinkModel> drinks;
 
-    public OrderDTO(int order_ID, String statusAppetizer, String statusMain, String statusDessert, int restaurantTableId, String comment, ArrayList<ALaCarteModel> foods, ArrayList<DrinkModel> drinks) {
+
+    public OrderDTO(int order_ID, String statusAppetizer, String statusMain, String statusDessert, int restaurantTableId, String comment, boolean orderStatus, ArrayList<ALaCarteItem> foods, ArrayList<DrinkModel> drinks) {
         this.order_ID = order_ID;
         this.statusAppetizer = statusAppetizer;
         this.statusMain = statusMain;
@@ -30,11 +32,12 @@ public class OrderDTO {
         this.comment = comment;
         this.foods = foods;
         this.drinks = drinks;
+        this.orderStatus = orderStatus;
     }
 
     public OrderDTO() {
-        foods = new ArrayList<ALaCarteModel>();
-        drinks = new ArrayList<DrinkModel>();
+        foods = new ArrayList<>();
+        drinks = new ArrayList<>();
     }
 
     public int getOrder_ID() {
@@ -85,15 +88,15 @@ public class OrderDTO {
         this.comment = comment;
     }
 
-    public List<ALaCarteModel> getFoods() {
+    public ArrayList<ALaCarteItem> getFoods() {
         return foods;
     }
 
-    public void setFoods(ArrayList<ALaCarteModel> foods) {
+    public void setFoods(ArrayList<ALaCarteItem> foods) {
         this.foods = foods;
     }
 
-    public List<DrinkModel> getDrinks() {
+    public ArrayList<DrinkModel> getDrinks() {
         return drinks;
     }
 
@@ -103,8 +106,18 @@ public class OrderDTO {
     public void addDrink(DrinkModel drink){
         drinks.add(drink);
     };
-    public void addFood(ALaCarteModel food){
+    public void addFood(ALaCarteItem food){
         foods.add(food);
     };
 
+    public int getOrderStatus() {
+        if (orderStatus)
+            return 1;
+        else
+            return 0;
+    }
+
+    public void setOrderStatus(boolean orderStatus) {
+        this.orderStatus = orderStatus;
+    }
 }

@@ -10,6 +10,8 @@ public class TableModel {
 
     private String status;
 
+    private int currentOrderId;
+
 
     public TableModel(int sessionId, int tableNumber, int tableSize, String status) {
         this.sessionId = sessionId;
@@ -51,5 +53,11 @@ public class TableModel {
     }
 
 
+    public int getCurrentOrderId() {
+        return currentOrderId;
+    }
 
+    public void setCurrentOrderId(int currentOrderId) {
+        this.currentOrderId = currentOrderId;
+    }
 }

@@ -5,7 +5,7 @@ public class PurchasedALaCarteEntity {
 
     private int purchasedId;
     private OrderModel restaurantOrderByOrderId;
-    private ALaCarteModel aLaCarteMenuByALaCarteId;
+    private ALaCarteItem aLaCarteMenuByALaCarteId;
 
     public OrderModel getRestaurantOrderByOrderId() {
         return restaurantOrderByOrderId;
@@ -15,11 +15,11 @@ public class PurchasedALaCarteEntity {
         this.restaurantOrderByOrderId = restaurantOrderByOrderId;
     }
 
-    public ALaCarteModel getaLaCarteMenuByALaCarteId() {
+    public ALaCarteItem getaLaCarteMenuByALaCarteId() {
         return aLaCarteMenuByALaCarteId;
     }
 
-    public void setaLaCarteMenuByALaCarteId(ALaCarteModel aLaCarteMenuByALaCarteId) {
+    public void setaLaCarteMenuByALaCarteId(ALaCarteItem aLaCarteMenuByALaCarteId) {
         this.aLaCarteMenuByALaCarteId = aLaCarteMenuByALaCarteId;
     }
 

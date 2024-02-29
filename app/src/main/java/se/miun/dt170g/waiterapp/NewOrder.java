@@ -10,23 +10,20 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.NumberPicker;
-
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import se.miun.dt170g.waiterapp.adapters.InputAdapter;
-import se.miun.dt170g.waiterapp.class_models.ALaCarteModel;
+import se.miun.dt170g.waiterapp.class_models.ALaCarteItem;
 import se.miun.dt170g.waiterapp.class_models.DrinkModel;
 import se.miun.dt170g.waiterapp.class_models.InputModel;
 import se.miun.dt170g.waiterapp.class_models.OrderDTO;
-import se.miun.dt170g.waiterapp.class_models.OrderModel;
 import se.miun.dt170g.waiterapp.class_models.TableModel;
 import se.miun.dt170g.waiterapp.fetch.FetchData;
 import se.miun.dt170g.waiterapp.fetch.Retro;
+
 
 public class NewOrder extends AppCompatActivity {
     private static int orderID = 0;
@@ -36,7 +33,7 @@ public class NewOrder extends AppCompatActivity {
     private ArrayList<InputModel> inputHuvud = new ArrayList<>();
     private ArrayList<InputModel> inputDrinks = new ArrayList<>();
 
-    private ArrayList<ALaCarteModel> aLaCarteModels = new ArrayList<>();
+    private ArrayList<ALaCarteItem> aLaCarteItems = new ArrayList<>();
     private ArrayList<DrinkModel> drinkModels = new ArrayList<>();
 
     private Retro retrofit = new Retro();
@@ -69,26 +66,27 @@ public class NewOrder extends AppCompatActivity {
             }
         });
 
+
     }
 
     public void fetchA_LA_CARTE_ITEMS(RecyclerView forRV, RecyclerView huvudRV, RecyclerView efterRV){
-        Call<ArrayList<ALaCarteModel>> call = fetchData.getA_LA_CARTE_ITEMS();
+        Call<ArrayList<ALaCarteItem>> call = fetchData.getA_LA_CARTE_ITEMS();
 
-        call.enqueue(new Callback<ArrayList<ALaCarteModel>>() {
+        call.enqueue(new Callback<ArrayList<ALaCarteItem>>() {
             @Override
-            public void onResponse(Call<ArrayList<ALaCarteModel>> call, Response<ArrayList<ALaCarteModel>> response) {
+            public void onResponse(Call<ArrayList<ALaCarteItem>> call, Response<ArrayList<ALaCarteItem>> response) {
                 if (response.isSuccessful()) {
                     //Fill the array with ALaCarteModel items from response.
-                    aLaCarteModels = response.body();
+                    aLaCarteItems = response.body();
 
                     //Check the type of the aLaCarte and add it to the right ArrayList.
-                    for (ALaCarteModel item: aLaCarteModels ){
+                    for (ALaCarteItem item: aLaCarteItems){
                         if( item.getType().equals("förrätt")){
-                            inputFor.add(new InputModel(item.getaLaCarteID(), item.getPrice(),  item.getName(), "", ""));
+                            inputFor.add(new InputModel(item.getaLaCarteID(), item.getPrice(), item.getName(), item.getType(), item.getDescription()));
                         }else if(item.getType().equals("huvudrätt")){
-                            inputHuvud.add(new InputModel(item.getaLaCarteID(), item.getPrice(),  item.getName(), "", ""));
+                            inputHuvud.add(new InputModel(item.getaLaCarteID(), item.getPrice(), item.getName(), item.getType(), item.getDescription()));
                         }else{
-                            inputEfter.add(new InputModel(item.getaLaCarteID(), item.getPrice(),  item.getName(), "", ""));
+                            inputEfter.add(new InputModel(item.getaLaCarteID(), item.getPrice(), item.getName(), item.getType(), item.getDescription()));
                         }
                     }
 
@@ -105,14 +103,14 @@ public class NewOrder extends AppCompatActivity {
                     efterRV.setAdapter(efterAdapter);
                     efterRV.setLayoutManager(new LinearLayoutManager(NewOrder.this));
 
-                    Log.d("newOrder responseeeeee", String.valueOf(response.code()));
+
                 }else{
-                    Log.d("newOrder response", String.valueOf(response.code()));
+                    Log.d("Fetch response", String.valueOf(response.code()));
                 }
             }
 
             @Override
-            public void onFailure(Call<ArrayList<ALaCarteModel>> call, Throwable t) {
+            public void onFailure(Call<ArrayList<ALaCarteItem>> call, Throwable t) {
                 Log.d("newOrder response", t.getMessage());
             }
         });
@@ -154,10 +152,6 @@ public class NewOrder extends AppCompatActivity {
 
     public void insertOrder(View view){
         OrderDTO newOrder = new OrderDTO();
-        ArrayList<ALaCarteModel> foods = new ArrayList<>();
-        ArrayList<DrinkModel> drinks = new ArrayList<>();
-
-
         //Table data
         int tableId = getIntent().getIntExtra("TableNr", 0);
         int tableSession = getIntent().getIntExtra("TableSession", 0);
@@ -167,36 +161,52 @@ public class NewOrder extends AppCompatActivity {
         EditText textInput = findViewById(R.id.CommentIn);
         String comment = String.valueOf(textInput.getText());
 
+
         for (int i = 0; i < inputFor.size(); i++) {
-            Log.d("gg", inputFor.get(i).getItemName() + " : " + inputFor.get(i).getCount());
-            foods.add(new ALaCarteModel(inputFor.get(i).getId(), inputFor.get(i).getPrice(), inputFor.get(i).getItemName(), inputFor.get(i).getType(), inputFor.get(i).getDescription()));
+            int count = inputFor.get(i).getCount();
+            while(count != 0){
+                newOrder.addFood(new ALaCarteItem(inputFor.get(i).getId(),
+                        inputFor.get(i).getPrice(),
+                        inputFor.get(i).getItemName(),
+                        inputFor.get(i).getType(),
+                        inputFor.get(i).getDescription()));
+
+
+
+                count--;
+            }
         }
-        for (int i = 0; i < inputHuvud.size(); i++) {
-            Log.d("gg", inputHuvud.get(i).getItemName() + " : " + inputHuvud.get(i).getCount());
-            foods.add(new ALaCarteModel(inputHuvud.get(i).getId(), inputHuvud.get(i).getPrice(), inputHuvud.get(i).getItemName(), inputHuvud.get(i).getType(), inputHuvud.get(i).getDescription()));
+        /*for (int i = 0; i < inputHuvud.size(); i++) {
+            int count = inputHuvud.get(i).getCount();
+            while(count != 0){
+                foods.add(new ALaCarteModel(inputHuvud.get(i).getId(), inputHuvud.get(i).getPrice(), inputHuvud.get(i).getItemName(), inputHuvud.get(i).getType(), inputHuvud.get(i).getDescription()));
+                count--;
+            }
         }
         for (int i = 0; i < inputEfter.size(); i++) {
-            Log.d("gg", inputEfter.get(i).getItemName() + " : " + inputEfter.get(i).getCount());
-            foods.add(new ALaCarteModel(inputEfter.get(i).getId(), inputEfter.get(i).getPrice(), inputEfter.get(i).getItemName(), inputEfter.get(i).getType(), inputEfter.get(i).getDescription()));
+            int count = inputEfter.get(i).getCount();
+            while(count != 0){
+                foods.add(new ALaCarteModel(inputEfter.get(i).getId(), inputEfter.get(i).getPrice(), inputEfter.get(i).getItemName(), inputEfter.get(i).getType(), inputEfter.get(i).getDescription()));
+                count--;
+            }
         }
         for (int i = 0; i < inputDrinks.size(); i++) {
-            Log.d("gg", inputDrinks.get(i).getItemName() + " : " + inputDrinks.get(i).getCount());
-            drinks.add(new DrinkModel(inputDrinks.get(i).getId(), inputDrinks.get(i).getItemName(), inputDrinks.get(i).getDescription(), inputDrinks.get(i).getPrice()));
-        }
-
+            int count = inputDrinks.get(i).getCount();
+            while(count != 0){
+                drinks.add(new DrinkModel(inputDrinks.get(i).getId(), inputDrinks.get(i).getItemName(), inputDrinks.get(i).getDescription(), inputDrinks.get(i).getPrice()));
+                count--;
+            }
+        }*/
 
 
         //Setting the order details
-        newOrder.setOrder_ID(++orderID);
-        newOrder.setStatusAppetizer("Skickat");
-        newOrder.setStatusMain("Skickat");
+        newOrder.setOrder_ID(0);
         newOrder.setStatusDessert("Skickat");
+        newOrder.setStatusMain("Skickat");
+        newOrder.setStatusAppetizer("Skickat");
         newOrder.setRestaurantTableId(tableId);
         newOrder.setComment(comment);
-        newOrder.setFoods(foods);
-        newOrder.setDrinks(drinks);
-
-
+        newOrder.setOrderStatus(true);
 
 
         Call<Void> call = fetchData.addOrder(newOrder);
@@ -222,6 +232,7 @@ public class NewOrder extends AppCompatActivity {
             }
         });
     }
+
 
 
 

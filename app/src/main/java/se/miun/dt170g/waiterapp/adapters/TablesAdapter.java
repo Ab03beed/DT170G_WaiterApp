@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import se.miun.dt170g.waiterapp.MainActivity;
 import se.miun.dt170g.waiterapp.R;
 import se.miun.dt170g.waiterapp.class_models.TableModel;
+import se.miun.dt170g.waiterapp.fetch.FetchData;
+import se.miun.dt170g.waiterapp.fetch.Retro;
 
 public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.MyViewHolder> {
 
@@ -24,6 +26,9 @@ public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.MyViewHold
 
     private Context context;
     private ArrayList<TableModel> tableModels;
+
+    private Retro retrofit = new Retro();
+    private FetchData fetchData = retrofit.getRetrofit().create(FetchData.class);
 
     public TablesAdapter(Context context, ArrayList<TableModel> tableModels, TablesInterface tablesInterface){
         this.context = context;
@@ -46,12 +51,19 @@ public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.MyViewHold
 
         holder.tableNumber.setText("Bord Nr: " + tableModels.get(position).getTableNumber());
 
+        /*holder.appetizerStatus.setText("Förrätt: " + tableModels.get(position).get());
+        holder.tableNumber.setText("Bord Nr: " + tableModels.get(position).getTableNumber());
+        holder.tableNumber.setText("Bord Nr: " + tableModels.get(position).getTableNumber());*/
+
         if(tableModels.get(position).getTableStatus().equals("Ledig")){
             holder.tableCard.setCardBackgroundColor(ContextCompat.getColor(context.getApplicationContext(), R.color.green));
+
         }else if (tableModels.get(position).getTableStatus().equals("Aktiv")){
             holder.tableCard.setCardBackgroundColor(ContextCompat.getColor(context.getApplicationContext(), R.color.orange));
+
         }else if (tableModels.get(position).getTableStatus().equals("Bokat")) {
             holder.tableCard.setCardBackgroundColor(ContextCompat.getColor(context.getApplicationContext(), R.color.red));
+
         }
 
 
@@ -65,14 +77,17 @@ public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.MyViewHold
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView tableNumber;
+        TextView tableNumber, appetizerStatus, mainStatus, dessertStatus;
         CardView tableCard;
 
         public MyViewHolder(@NonNull View itemView, TablesInterface tablesInterface) {
             super(itemView);
 
-            tableNumber = itemView.findViewById(R.id.TableId);
             tableCard = itemView.findViewById(R.id.TableCard);
+            tableNumber = itemView.findViewById(R.id.TableId);
+            appetizerStatus = itemView.findViewById(R.id.AppetizerStatus);
+            mainStatus = itemView.findViewById(R.id.MainStatus);
+            dessertStatus = itemView.findViewById(R.id.DessertStatus);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -88,5 +103,9 @@ public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.MyViewHold
                 }
             });
         }
+    }
+
+    public void getOrderStatus(){
+        //fetchData.get
     }
 }
