@@ -4,7 +4,7 @@ package se.miun.dt170g.waiterapp.class_models;
 /**
  * this class represents a menu item in the a la carte menu
  */
-public class ALaCarteItem {
+public class ALaCarteModel {
     private int aLaCarteID;
 
     private int price;
@@ -14,7 +14,7 @@ public class ALaCarteItem {
 
 
 
-    public ALaCarteItem(int aLaCarteID, int price, String name, String type, String description) {
+    public ALaCarteModel(int aLaCarteID, int price, String name, String type, String description) {
         this.aLaCarteID = aLaCarteID;
         this.price = price;
         this.name = name;

@@ -61,6 +61,10 @@ public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.MyViewHold
         }else if (tableModels.get(position).getTableStatus().equals("Aktiv")){
             holder.tableCard.setCardBackgroundColor(ContextCompat.getColor(context.getApplicationContext(), R.color.orange));
 
+            holder.appetizerStatus.setText("Förrätt: gg");
+            holder.mainStatus.setText("Huvudrätt: gg");
+            holder.dessertStatus.setText("Efterrätt: gg");
+
         }else if (tableModels.get(position).getTableStatus().equals("Bokat")) {
             holder.tableCard.setCardBackgroundColor(ContextCompat.getColor(context.getApplicationContext(), R.color.red));
 

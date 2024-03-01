@@ -45,7 +45,7 @@ public class OrderDetails extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-         Button insertBtn = (Button) findViewById(R.id.EndOrder);
+        Button insertBtn = (Button) findViewById(R.id.EndOrder);
         insertBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

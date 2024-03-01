@@ -18,12 +18,12 @@ public class OrderDTO {
     private String comment;
     private boolean orderStatus;
 
-    private ArrayList<ALaCarteItem> foods;
+    private ArrayList<ALaCarteModel> foods;
 
     private ArrayList<DrinkModel> drinks;
 
 
-    public OrderDTO(int order_ID, String statusAppetizer, String statusMain, String statusDessert, int restaurantTableId, String comment, boolean orderStatus, ArrayList<ALaCarteItem> foods, ArrayList<DrinkModel> drinks) {
+    public OrderDTO(int order_ID, String statusAppetizer, String statusMain, String statusDessert, int restaurantTableId, String comment, boolean orderStatus, ArrayList<ALaCarteModel> foods, ArrayList<DrinkModel> drinks) {
         this.order_ID = order_ID;
         this.statusAppetizer = statusAppetizer;
         this.statusMain = statusMain;
@@ -88,11 +88,11 @@ public class OrderDTO {
         this.comment = comment;
     }
 
-    public ArrayList<ALaCarteItem> getFoods() {
+    public ArrayList<ALaCarteModel> getFoods() {
         return foods;
     }
 
-    public void setFoods(ArrayList<ALaCarteItem> foods) {
+    public void setFoods(ArrayList<ALaCarteModel> foods) {
         this.foods = foods;
     }
 
@@ -106,7 +106,7 @@ public class OrderDTO {
     public void addDrink(DrinkModel drink){
         drinks.add(drink);
     };
-    public void addFood(ALaCarteItem food){
+    public void addFood(ALaCarteModel food){
         foods.add(food);
     };
 

@@ -16,7 +16,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import se.miun.dt170g.waiterapp.adapters.InputAdapter;
-import se.miun.dt170g.waiterapp.class_models.ALaCarteItem;
+import se.miun.dt170g.waiterapp.class_models.ALaCarteModel;
 import se.miun.dt170g.waiterapp.class_models.DrinkModel;
 import se.miun.dt170g.waiterapp.class_models.InputModel;
 import se.miun.dt170g.waiterapp.class_models.OrderDTO;
@@ -33,7 +33,7 @@ public class NewOrder extends AppCompatActivity {
     private ArrayList<InputModel> inputHuvud = new ArrayList<>();
     private ArrayList<InputModel> inputDrinks = new ArrayList<>();
 
-    private ArrayList<ALaCarteItem> aLaCarteItems = new ArrayList<>();
+    private ArrayList<ALaCarteModel> aLaCarteModels = new ArrayList<>();
     private ArrayList<DrinkModel> drinkModels = new ArrayList<>();
 
     private Retro retrofit = new Retro();
@@ -70,17 +70,17 @@ public class NewOrder extends AppCompatActivity {
     }
 
     public void fetchA_LA_CARTE_ITEMS(RecyclerView forRV, RecyclerView huvudRV, RecyclerView efterRV){
-        Call<ArrayList<ALaCarteItem>> call = fetchData.getA_LA_CARTE_ITEMS();
+        Call<ArrayList<ALaCarteModel>> call = fetchData.getA_LA_CARTE_ITEMS();
 
-        call.enqueue(new Callback<ArrayList<ALaCarteItem>>() {
+        call.enqueue(new Callback<ArrayList<ALaCarteModel>>() {
             @Override
-            public void onResponse(Call<ArrayList<ALaCarteItem>> call, Response<ArrayList<ALaCarteItem>> response) {
+            public void onResponse(Call<ArrayList<ALaCarteModel>> call, Response<ArrayList<ALaCarteModel>> response) {
                 if (response.isSuccessful()) {
                     //Fill the array with ALaCarteModel items from response.
-                    aLaCarteItems = response.body();
+                    aLaCarteModels = response.body();
 
                     //Check the type of the aLaCarte and add it to the right ArrayList.
-                    for (ALaCarteItem item: aLaCarteItems){
+                    for (ALaCarteModel item: aLaCarteModels){
                         if( item.getType().equals("förrätt")){
                             inputFor.add(new InputModel(item.getaLaCarteID(), item.getPrice(), item.getName(), item.getType(), item.getDescription()));
                         }else if(item.getType().equals("huvudrätt")){
@@ -110,7 +110,7 @@ public class NewOrder extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ArrayList<ALaCarteItem>> call, Throwable t) {
+            public void onFailure(Call<ArrayList<ALaCarteModel>> call, Throwable t) {
                 Log.d("newOrder response", t.getMessage());
             }
         });
@@ -161,43 +161,34 @@ public class NewOrder extends AppCompatActivity {
         EditText textInput = findViewById(R.id.CommentIn);
         String comment = String.valueOf(textInput.getText());
 
-
         for (int i = 0; i < inputFor.size(); i++) {
             int count = inputFor.get(i).getCount();
             while(count != 0){
-                newOrder.addFood(new ALaCarteItem(inputFor.get(i).getId(),
-                        inputFor.get(i).getPrice(),
-                        inputFor.get(i).getItemName(),
-                        inputFor.get(i).getType(),
-                        inputFor.get(i).getDescription()));
-
-
-
+                newOrder.addFood(new ALaCarteModel(inputFor.get(i).getId(), inputFor.get(i).getPrice(), inputFor.get(i).getItemName(), inputFor.get(i).getType(), inputFor.get(i).getDescription()));
                 count--;
             }
         }
-        /*for (int i = 0; i < inputHuvud.size(); i++) {
+        for (int i = 0; i < inputHuvud.size(); i++) {
             int count = inputHuvud.get(i).getCount();
             while(count != 0){
-                foods.add(new ALaCarteModel(inputHuvud.get(i).getId(), inputHuvud.get(i).getPrice(), inputHuvud.get(i).getItemName(), inputHuvud.get(i).getType(), inputHuvud.get(i).getDescription()));
+                newOrder.addFood(new ALaCarteModel(inputHuvud.get(i).getId(), inputHuvud.get(i).getPrice(), inputHuvud.get(i).getItemName(), inputHuvud.get(i).getType(), inputHuvud.get(i).getDescription()));
                 count--;
             }
         }
         for (int i = 0; i < inputEfter.size(); i++) {
             int count = inputEfter.get(i).getCount();
             while(count != 0){
-                foods.add(new ALaCarteModel(inputEfter.get(i).getId(), inputEfter.get(i).getPrice(), inputEfter.get(i).getItemName(), inputEfter.get(i).getType(), inputEfter.get(i).getDescription()));
+                newOrder.addFood(new ALaCarteModel(inputEfter.get(i).getId(), inputEfter.get(i).getPrice(), inputEfter.get(i).getItemName(), inputEfter.get(i).getType(), inputEfter.get(i).getDescription()));
                 count--;
             }
         }
         for (int i = 0; i < inputDrinks.size(); i++) {
             int count = inputDrinks.get(i).getCount();
             while(count != 0){
-                drinks.add(new DrinkModel(inputDrinks.get(i).getId(), inputDrinks.get(i).getItemName(), inputDrinks.get(i).getDescription(), inputDrinks.get(i).getPrice()));
+                newOrder.addDrink(new DrinkModel(inputDrinks.get(i).getId(), inputDrinks.get(i).getItemName(), inputDrinks.get(i).getDescription(), inputDrinks.get(i).getPrice()));
                 count--;
             }
-        }*/
-
+        }
 
         //Setting the order details
         newOrder.setOrder_ID(0);
@@ -208,7 +199,7 @@ public class NewOrder extends AppCompatActivity {
         newOrder.setComment(comment);
         newOrder.setOrderStatus(true);
 
-
+        //Posting the order to the API.
         Call<Void> call = fetchData.addOrder(newOrder);
 
         call.enqueue(new Callback<Void>() {

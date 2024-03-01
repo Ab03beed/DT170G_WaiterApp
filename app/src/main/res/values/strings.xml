@@ -25,9 +25,9 @@
 
     <!-- IDs for table_template -->
     <string name="TableId">Bord nr: </string>
-    <string name="AppetizerStatus">Förrätt: </string>
-    <string name="MainStatus">Huvudrätt: </string>
-    <string name="DessertStatus">Efterrätt: </string>
+    <!--<string name="AppetizerStatus"></string>
+    <string name="MainStatus"></string>
+    <string name="DessertStatus"></string>-->
 
 
 
