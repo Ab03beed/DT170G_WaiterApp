@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements TablesInterface {
     }
 
     @Override
-    public void onItemClick(int position) {
+    public void onTableClick(int position) {
         //Checks if the table is empty or not, 0 refers to empty.
         if(tableModels.get(position).getTableStatus().equals("Ledig")){
             Intent i = new Intent(this, NewOrder.class);
@@ -107,18 +107,20 @@ public class MainActivity extends AppCompatActivity implements TablesInterface {
             startActivity(i);
 
         }else{
-            Intent i = new Intent(this, OrderDetails.class);
+            Intent intent = new Intent(this, OrderDetails.class);
 
-            i.putExtra("TableSession",tableModels.get(position).getSessionId());
-            i.putExtra("TableNr",tableModels.get(position).getTableNumber());
-            i.putExtra("TableSize",tableModels.get(position).getTableSize());
+            //Send table info
+            intent.putExtra("Table", tableModels.get(position));
 
             //send order info
-            i.putExtra("orderDTO", activeOrders.get(position));
+            for (int i = 0; i < activeOrders.size(); i++) {
+                if(activeOrders.get(i).getRestaurantTableId() == tableModels.get(position).getTableNumber()){
+                    intent.putExtra("orderDTO", activeOrders.get(i));
+                    break;
+                }
+            }
 
-
-
-            startActivity(i);
+            startActivity(intent);
         }
     }
 }

@@ -118,7 +118,7 @@ public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.MyViewHold
                         int position = getAdapterPosition();
 
                         if(position != RecyclerView.NO_POSITION){
-                            tablesInterface.onItemClick(position);
+                            tablesInterface.onTableClick(position);
                         }
                     }
                 }

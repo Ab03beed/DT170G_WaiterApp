@@ -1,12 +1,14 @@
 package se.miun.dt170g.waiterapp.class_models;
 
 public class ItemModel {
+    private int itemId;
     private String itemName;
     private int price;
 
-    public ItemModel(String itemName, int price) {
-        this.price = price;
+    public ItemModel(int itemId, String itemName, int price) {
+        this.itemId =itemId;
         this.itemName = itemName;
+        this.price = price;
     }
 
     public String getItemName() {
@@ -16,6 +18,12 @@ public class ItemModel {
     public int getPrice() {
         return price;
     }
+
+    public int getId() {
+        return itemId;
+    }
+
+
 
 
 

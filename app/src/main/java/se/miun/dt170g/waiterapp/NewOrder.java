@@ -152,7 +152,6 @@ public class NewOrder extends AppCompatActivity {
         });
     }
 
-
     public void insertOrder(View view){
         OrderDTO newOrder = new OrderDTO();
         //Table data
@@ -204,7 +203,6 @@ public class NewOrder extends AppCompatActivity {
 
         //Check if list are not empty.
         if(statusFor)
-
             newOrder.setStatusAppetizer("Skickat");
         else
             newOrder.setStatusAppetizer("none");

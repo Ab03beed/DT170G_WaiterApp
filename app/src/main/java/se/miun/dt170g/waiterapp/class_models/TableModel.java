@@ -1,6 +1,8 @@
 package se.miun.dt170g.waiterapp.class_models;
 
-public class TableModel {
+import java.io.Serializable;
+
+public class TableModel implements Serializable {
 
     private int sessionId;
 
