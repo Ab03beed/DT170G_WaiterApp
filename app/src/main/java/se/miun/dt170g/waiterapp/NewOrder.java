@@ -26,8 +26,6 @@ import se.miun.dt170g.waiterapp.fetch.Retro;
 
 
 public class NewOrder extends AppCompatActivity {
-    private static int orderID = 0;
-
     private ArrayList<InputModel> inputFor = new ArrayList<>();
     private ArrayList<InputModel> inputEfter = new ArrayList<>();
     private ArrayList<InputModel> inputHuvud = new ArrayList<>();
@@ -38,6 +36,11 @@ public class NewOrder extends AppCompatActivity {
 
     private Retro retrofit = new Retro();
     private FetchData fetchData = retrofit.getRetrofit().create(FetchData.class);
+
+    boolean statusFor = false;
+    boolean statusHuvud = false;
+    boolean statusEfter = false;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,6 +169,7 @@ public class NewOrder extends AppCompatActivity {
             while(count != 0){
                 newOrder.addFood(new ALaCarteModel(inputFor.get(i).getId(), inputFor.get(i).getPrice(), inputFor.get(i).getItemName(), inputFor.get(i).getType(), inputFor.get(i).getDescription()));
                 count--;
+                statusFor = true;
             }
         }
         for (int i = 0; i < inputHuvud.size(); i++) {
@@ -173,6 +177,7 @@ public class NewOrder extends AppCompatActivity {
             while(count != 0){
                 newOrder.addFood(new ALaCarteModel(inputHuvud.get(i).getId(), inputHuvud.get(i).getPrice(), inputHuvud.get(i).getItemName(), inputHuvud.get(i).getType(), inputHuvud.get(i).getDescription()));
                 count--;
+                statusHuvud = true;
             }
         }
         for (int i = 0; i < inputEfter.size(); i++) {
@@ -180,6 +185,7 @@ public class NewOrder extends AppCompatActivity {
             while(count != 0){
                 newOrder.addFood(new ALaCarteModel(inputEfter.get(i).getId(), inputEfter.get(i).getPrice(), inputEfter.get(i).getItemName(), inputEfter.get(i).getType(), inputEfter.get(i).getDescription()));
                 count--;
+                statusEfter = true;
             }
         }
         for (int i = 0; i < inputDrinks.size(); i++) {
@@ -192,12 +198,26 @@ public class NewOrder extends AppCompatActivity {
 
         //Setting the order details
         newOrder.setOrder_ID(0);
-        newOrder.setStatusDessert("Skickat");
-        newOrder.setStatusMain("Skickat");
-        newOrder.setStatusAppetizer("Skickat");
         newOrder.setRestaurantTableId(tableId);
         newOrder.setComment(comment);
         newOrder.setOrderStatus(true);
+
+        //Check if list are not empty.
+        if(statusFor)
+
+            newOrder.setStatusAppetizer("Skickat");
+        else
+            newOrder.setStatusAppetizer("none");
+
+        if(statusHuvud)
+            newOrder.setStatusMain("Skickat");
+        else
+            newOrder.setStatusMain("none");
+
+        if(statusEfter)
+            newOrder.setStatusDessert("Skickat");
+        else
+            newOrder.setStatusDessert("none");
 
         //Posting the order to the API.
         Call<Void> call = fetchData.addOrder(newOrder);

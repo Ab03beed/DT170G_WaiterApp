@@ -1,10 +1,12 @@
 package se.miun.dt170g.waiterapp.class_models;
 
 
+import java.io.Serializable;
+
 /**
  * this class represents a menu item in the a la carte menu
  */
-public class ALaCarteModel {
+public class ALaCarteModel implements Serializable {
     private int aLaCarteID;
 
     private int price;

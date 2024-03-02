@@ -1,9 +1,10 @@
 package se.miun.dt170g.waiterapp.class_models;
 
 
+import java.io.Serializable;
 import java.util.*;
 
-public class OrderDTO {
+public class OrderDTO implements Serializable {
 
     private int order_ID;
 
@@ -38,6 +39,10 @@ public class OrderDTO {
     public OrderDTO() {
         foods = new ArrayList<>();
         drinks = new ArrayList<>();
+    }
+
+    public OrderDTO getOrderDTO(){
+        return this;
     }
 
     public int getOrder_ID() {
@@ -110,11 +115,15 @@ public class OrderDTO {
         foods.add(food);
     };
 
-    public int getOrderStatus() {
+    /*public int getOrderStatus() {
         if (orderStatus)
             return 1;
         else
             return 0;
+    }*/
+
+    public boolean getOrderStatus() {
+        return orderStatus;
     }
 
     public void setOrderStatus(boolean orderStatus) {

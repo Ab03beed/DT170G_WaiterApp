@@ -16,6 +16,7 @@ import retrofit2.Response;
 import se.miun.dt170g.waiterapp.adapters.TablesAdapter;
 import se.miun.dt170g.waiterapp.adapters.TablesInterface;
 import se.miun.dt170g.waiterapp.class_models.DrinkModel;
+import se.miun.dt170g.waiterapp.class_models.OrderDTO;
 import se.miun.dt170g.waiterapp.class_models.TableModel;
 import se.miun.dt170g.waiterapp.fetch.FetchData;
 import se.miun.dt170g.waiterapp.fetch.Retro;
@@ -23,6 +24,7 @@ import se.miun.dt170g.waiterapp.fetch.Retro;
 public class MainActivity extends AppCompatActivity implements TablesInterface {
 
     private ArrayList<TableModel> tableModels = new ArrayList<>();
+    private ArrayList<OrderDTO> activeOrders = new ArrayList<>();
 
     private Retro retrofit = new Retro();
     private FetchData fetchData = retrofit.getRetrofit().create(FetchData.class);
@@ -34,13 +36,38 @@ public class MainActivity extends AppCompatActivity implements TablesInterface {
 
         setTitle("Bord");
 
-        RecyclerView recyclerView = findViewById(R.id.TablesRV);
+        fetchActiveOrders();
 
-        fetchTables(recyclerView);
+
 
     }
 
-    public void fetchTables(RecyclerView recyclerView){
+    public void fetchActiveOrders(){
+        Call<ArrayList<OrderDTO>> call = fetchData.getActiveOrders();
+
+        call.enqueue(new Callback<ArrayList<OrderDTO>>() {
+            @Override
+            public void onResponse(Call<ArrayList<OrderDTO>> call, Response<ArrayList<OrderDTO>> response) {
+                if (response.isSuccessful()) {
+                    //Fill the ArrayList with active orders from the API.
+                    activeOrders = response.body();
+
+                    RecyclerView recyclerView = findViewById(R.id.TablesRV);
+                    fetchTables(recyclerView, activeOrders);
+                    
+                }else{
+                    Log.d("res", "fetchActiveOrders " + String.valueOf(response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<OrderDTO>> call, Throwable t) {
+                Log.d("res", "Failure fetchActiveOrders " + t.getMessage());
+            }
+        });
+    }
+
+    public void fetchTables(RecyclerView recyclerView, ArrayList<OrderDTO> activeOrders){
         Call<ArrayList<TableModel>> call = fetchData.getTables();
 
         call.enqueue(new Callback<ArrayList<TableModel>>() {
@@ -50,18 +77,18 @@ public class MainActivity extends AppCompatActivity implements TablesInterface {
                     //Fill the ArrayList with tables from the API.
                     tableModels = response.body();
 
-                    TablesAdapter adapter = new TablesAdapter(MainActivity.this, tableModels, MainActivity.this);
+                    TablesAdapter adapter = new TablesAdapter(MainActivity.this, tableModels, activeOrders, MainActivity.this);
                     recyclerView.setAdapter(adapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
                 }else{
-                    Log.d("fetchTables res", String.valueOf(response.code()));
+                    Log.d("res", "fetchTables "+String.valueOf(response.code()));
                 }
             }
 
             @Override
             public void onFailure(Call<ArrayList<TableModel>> call, Throwable t) {
-                Log.d("fetchTables res", t.getMessage());
+                Log.d("res", "Failure fetchTables " + t.getMessage());
             }
         });
     }
@@ -71,16 +98,26 @@ public class MainActivity extends AppCompatActivity implements TablesInterface {
         //Checks if the table is empty or not, 0 refers to empty.
         if(tableModels.get(position).getTableStatus().equals("Ledig")){
             Intent i = new Intent(this, NewOrder.class);
+
+            //send table info
             i.putExtra("TableSession",tableModels.get(position).getSessionId());
             i.putExtra("TableNr",tableModels.get(position).getTableNumber());
             i.putExtra("TableSize",tableModels.get(position).getTableSize());
+
             startActivity(i);
 
         }else{
             Intent i = new Intent(this, OrderDetails.class);
+
             i.putExtra("TableSession",tableModels.get(position).getSessionId());
             i.putExtra("TableNr",tableModels.get(position).getTableNumber());
             i.putExtra("TableSize",tableModels.get(position).getTableSize());
+
+            //send order info
+            i.putExtra("orderDTO", activeOrders.get(position));
+
+
+
             startActivity(i);
         }
     }

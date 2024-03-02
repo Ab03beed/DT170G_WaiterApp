@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import se.miun.dt170g.waiterapp.MainActivity;
+import se.miun.dt170g.waiterapp.OrderDetails;
 import se.miun.dt170g.waiterapp.R;
+import se.miun.dt170g.waiterapp.class_models.OrderDTO;
 import se.miun.dt170g.waiterapp.class_models.TableModel;
 import se.miun.dt170g.waiterapp.fetch.FetchData;
 import se.miun.dt170g.waiterapp.fetch.Retro;
@@ -26,14 +28,16 @@ public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.MyViewHold
 
     private Context context;
     private ArrayList<TableModel> tableModels;
+    private ArrayList<OrderDTO> activeOrders;
 
     private Retro retrofit = new Retro();
     private FetchData fetchData = retrofit.getRetrofit().create(FetchData.class);
 
-    public TablesAdapter(Context context, ArrayList<TableModel> tableModels, TablesInterface tablesInterface){
+    public TablesAdapter(Context context, ArrayList<TableModel> tableModels, ArrayList<OrderDTO> activeOrders, TablesInterface tablesInterface){
         this.context = context;
         this.tableModels = tableModels;
         this.tablesInterface = tablesInterface;
+        this.activeOrders = activeOrders;
     }
 
     @NonNull
@@ -61,9 +65,22 @@ public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.MyViewHold
         }else if (tableModels.get(position).getTableStatus().equals("Aktiv")){
             holder.tableCard.setCardBackgroundColor(ContextCompat.getColor(context.getApplicationContext(), R.color.orange));
 
-            holder.appetizerStatus.setText("Förrätt: gg");
-            holder.mainStatus.setText("Huvudrätt: gg");
-            holder.dessertStatus.setText("Efterrätt: gg");
+            //Loop through the activeOrders to find the right order that belongs to the right table.
+            for (int i = 0; i < activeOrders.size(); i++) {
+                //check if the order belongs to the table.
+                if(activeOrders.get(i).getRestaurantTableId() == tableModels.get(position).getTableNumber()){
+                    //Check if the ststus is not none in the api
+                    if(!activeOrders.get(i).getStatusAppetizer().equals("none"))
+                        holder.appetizerStatus.setText("Förrätt: " + activeOrders.get(i).getStatusAppetizer());
+
+                    if (!activeOrders.get(i).getStatusMain().equals("none"))
+                        holder.mainStatus.setText("Huvudrätt: " + activeOrders.get(i).getStatusMain());
+
+                    if(!activeOrders.get(i).getStatusDessert().equals("none"))
+                        holder.dessertStatus.setText("Efterrätt: " + activeOrders.get(i).getStatusDessert());
+                }
+            }
+
 
         }else if (tableModels.get(position).getTableStatus().equals("Bokat")) {
             holder.tableCard.setCardBackgroundColor(ContextCompat.getColor(context.getApplicationContext(), R.color.red));
@@ -109,7 +126,4 @@ public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.MyViewHold
         }
     }
 
-    public void getOrderStatus(){
-        //fetchData.get
-    }
 }

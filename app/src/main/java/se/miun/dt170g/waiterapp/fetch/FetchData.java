@@ -35,6 +35,13 @@ public interface FetchData {
 
     @PUT("tables/{id}")
     Call<Void> updateTableStatus(@Path("id") int tableId, @Body TableModel tableModel);
+
+    @PUT("order/{orderId}")
+    Call<Void> updateOrderStatus(@Path("orderId") int orderId, @Body OrderDTO newOrder);
+
+    @GET("order/activeOrders")
+    Call<ArrayList<OrderDTO>> getActiveOrders();
+
 }
 
 

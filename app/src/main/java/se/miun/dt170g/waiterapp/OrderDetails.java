@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -16,7 +17,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import se.miun.dt170g.waiterapp.adapters.ItemsAdapter;
+import se.miun.dt170g.waiterapp.class_models.ALaCarteModel;
 import se.miun.dt170g.waiterapp.class_models.ItemModel;
+import se.miun.dt170g.waiterapp.class_models.OrderDTO;
 import se.miun.dt170g.waiterapp.class_models.TableModel;
 import se.miun.dt170g.waiterapp.fetch.FetchData;
 import se.miun.dt170g.waiterapp.fetch.Retro;
@@ -74,8 +77,14 @@ public class OrderDetails extends AppCompatActivity {
         int tableSession = getIntent().getIntExtra("TableSession", 0);
         int tableSize = getIntent().getIntExtra("TableSize", 0);
 
-        //Delete from the API
-        //...
+        //Order data
+        OrderDTO orderDTO = (OrderDTO) getIntent().getSerializableExtra("orderDTO");
+
+        orderDTO.setOrderStatus(false);
+
+        //update the order status in the API
+        updateOrderStatus(orderDTO.getOrder_ID(), orderDTO);
+
 
 
         //Update table status
@@ -104,4 +113,22 @@ public class OrderDetails extends AppCompatActivity {
             }
         });
     }
+
+    public void updateOrderStatus(int orderId, OrderDTO newOrder){
+
+        Call<Void> call = fetchData.updateOrderStatus(orderId, newOrder);
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
+    }
+
 }
