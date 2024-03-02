@@ -1,6 +1,8 @@
 package se.miun.dt170g.waiterapp.class_models;
 
-public class DrinkModel {
+import java.io.Serializable;
+
+public class DrinkModel implements Serializable {
     private int drink_id;
     private String name;
     private String description;
