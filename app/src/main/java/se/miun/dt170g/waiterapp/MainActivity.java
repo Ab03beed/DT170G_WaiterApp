@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements TablesInterface {
     @Override
     public void onTableClick(int position) {
         //Checks if the table is empty or not, 0 refers to empty.
-        if(tableModels.get(position).getTableStatus().equals("Ledig")){
+        if(tableModels.get(position).getTableStatus().equals("Free")){
             Intent i = new Intent(this, NewOrder.class);
 
             //send table info

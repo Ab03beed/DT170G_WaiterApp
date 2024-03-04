@@ -34,10 +34,10 @@ public interface FetchData {
     Call<Void> addOrder(@Body OrderDTO newOrder);
 
     @PUT("tables/{id}")
-    Call<Void> updateTableStatus(@Path("id") int tableId, @Body TableModel tableModel);
+    Call<Void> updateTable(@Path("id") int tableId, @Body TableModel tableModel);
 
     @PUT("order/{orderId}")
-    Call<Void> updateOrderStatus(@Path("orderId") int orderId, @Body OrderDTO newOrder);
+    Call<Void> updateOrder(@Path("orderId") int orderId, @Body OrderDTO newOrder);
 
     @GET("order/activeOrders")
     Call<ArrayList<OrderDTO>> getActiveOrders();

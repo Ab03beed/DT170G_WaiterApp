@@ -37,9 +37,9 @@ public class NewOrder extends AppCompatActivity {
     private Retro retrofit = new Retro();
     private FetchData fetchData = retrofit.getRetrofit().create(FetchData.class);
 
-    boolean statusFor = false;
-    boolean statusHuvud = false;
-    boolean statusEfter = false;
+    private boolean statusFor = false;
+    private boolean statusHuvud = false;
+    private boolean statusEfter = false;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -153,7 +153,13 @@ public class NewOrder extends AppCompatActivity {
     }
 
     public void insertOrder(View view){
+        Call<Void> call;
+
         OrderDTO newOrder = new OrderDTO();
+
+        //set the value for deciding if its new order or just update to existing order.
+        boolean isNew = getIntent().getBooleanExtra("isNew", true);
+
         //Table data
         int tableId = getIntent().getIntExtra("TableNr", 0);
         int tableSession = getIntent().getIntExtra("TableSession", 0);
@@ -203,29 +209,60 @@ public class NewOrder extends AppCompatActivity {
 
         //Check if list are not empty.
         if(statusFor)
-            newOrder.setStatusAppetizer("Skickat");
+            newOrder.setStatusAppetizer("Sent");
         else
-            newOrder.setStatusAppetizer("none");
+            newOrder.setStatusAppetizer("None");
 
         if(statusHuvud)
-            newOrder.setStatusMain("Skickat");
+            newOrder.setStatusMain("Sent");
         else
-            newOrder.setStatusMain("none");
+            newOrder.setStatusMain("None");
 
         if(statusEfter)
-            newOrder.setStatusDessert("Skickat");
+            newOrder.setStatusDessert("Sent");
         else
-            newOrder.setStatusDessert("none");
+            newOrder.setStatusDessert("None");
 
-        //Posting the order to the API.
-        Call<Void> call = fetchData.addOrder(newOrder);
+
+        //Check if it should be a new order or just an update to an existing order.
+        if(isNew){
+            //Posting the order to the API.
+            call = fetchData.addOrder(newOrder);
+        }else{
+            //oldOrder data
+            OrderDTO oldOrder = (OrderDTO) getIntent().getSerializableExtra("oldOrder");
+
+            ArrayList<ALaCarteModel> foods = new ArrayList<>();
+            ArrayList<DrinkModel> drinks = new ArrayList<>();
+            if(oldOrder != null){
+                foods = oldOrder.getFoods();
+                drinks = oldOrder.getDrinks();
+            }
+
+
+            //Merge arrays between oldOrder and newOrder.
+            for (int i = 0; i < foods.size(); i++) {
+                newOrder.addFood(foods.get(i));
+            }
+            for (int i = 0; i < drinks.size(); i++) {
+                newOrder.addDrink(drinks.get(i));
+            }
+
+            //Merge the old and new comments.
+            //newOrder.setComment("Old comment: " + oldOrder.getComment() + " | New comment: " + newOrder.getComment());
+
+            //Updating the order to the API.
+            call = fetchData.updateOrder(oldOrder.getOrder_ID(), newOrder);
+        }
+
+
 
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     //Change table status
-                    updateTableStatus(tableSession, new TableModel(tableSession,tableId,tableSize, "Aktiv"));
+                    updateTableStatus(tableSession, new TableModel(tableSession,tableId,tableSize, "Active"));
 
                     //Go back to the MainActivity
                     Intent intent = new Intent(NewOrder.this, MainActivity.class);
@@ -246,7 +283,7 @@ public class NewOrder extends AppCompatActivity {
 
 
     public void updateTableStatus(int tableId, TableModel tableModel){
-        Call<Void> call = fetchData.updateTableStatus(tableId, tableModel);
+        Call<Void> call = fetchData.updateTable(tableId, tableModel);
 
         call.enqueue(new Callback<Void>() {
             @Override

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import se.miun.dt170g.waiterapp.R;
 
 import se.miun.dt170g.waiterapp.class_models.ItemModel;
+import se.miun.dt170g.waiterapp.class_models.OrderDTO;
 
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder> {
     private Context context;
