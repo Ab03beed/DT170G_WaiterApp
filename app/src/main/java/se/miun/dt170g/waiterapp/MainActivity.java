@@ -1,9 +1,17 @@
 package se.miun.dt170g.waiterapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -121,4 +129,6 @@ public class MainActivity extends AppCompatActivity implements TablesInterface {
             startActivity(intent);
         }
     }
+
+
 }
