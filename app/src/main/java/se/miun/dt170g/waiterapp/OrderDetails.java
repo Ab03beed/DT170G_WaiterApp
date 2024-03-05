@@ -95,18 +95,21 @@ public class OrderDetails extends AppCompatActivity implements ItemsInterface {
         orderDetailsRV.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    public void AddItems(View view){//Table data
+    public void AddItems(View view){
+        //Table data
         TableModel tableModel = (TableModel) getIntent().getSerializableExtra("Table");
-
         //Order data
         OrderDTO orderDTO = (OrderDTO) getIntent().getSerializableExtra("orderDTO");
 
-
+        if(orderDTO == null)
+            orderDTO = new OrderDTO();
 
         //Go back to the MainActivity
         Intent intent = new Intent(OrderDetails.this, NewOrder.class);
 
+
         intent.putExtra("oldOrder", orderDTO);
+        intent.putExtra("Table", tableModel);
         intent.putExtra("isNew", false);
 
         startActivity(intent);

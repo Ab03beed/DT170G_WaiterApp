@@ -48,8 +48,8 @@ public class NewOrder extends AppCompatActivity {
         setContentView(R.layout.activity_new_order);
 
         //Set the Activity title, that show the specific table number.
-        int bordNr = getIntent().getIntExtra("TableNr", 0);
-        setTitle("Bord Nr: " + bordNr);
+        TableModel table = (TableModel) getIntent().getSerializableExtra("Table");
+        setTitle("Bord Nr: " + table.getTableNumber());
 
         //RecyclerView for each of the types
         RecyclerView forRV = findViewById(R.id.ForRV);
@@ -161,9 +161,7 @@ public class NewOrder extends AppCompatActivity {
         boolean isNew = getIntent().getBooleanExtra("isNew", true);
 
         //Table data
-        int tableId = getIntent().getIntExtra("TableNr", 0);
-        int tableSession = getIntent().getIntExtra("TableSession", 0);
-        int tableSize = getIntent().getIntExtra("TableSize", 0);
+        TableModel table = (TableModel) getIntent().getSerializableExtra("Table");
 
         //Comment
         EditText textInput = findViewById(R.id.CommentIn);
@@ -203,7 +201,7 @@ public class NewOrder extends AppCompatActivity {
 
         //Setting the order details
         newOrder.setOrder_ID(0);
-        newOrder.setRestaurantTableId(tableId);
+        newOrder.setRestaurantTableId(table.getTableNumber());
         newOrder.setComment(comment);
         newOrder.setOrderStatus(true);
 
@@ -239,7 +237,6 @@ public class NewOrder extends AppCompatActivity {
                 drinks = oldOrder.getDrinks();
             }
 
-
             //Merge arrays between oldOrder and newOrder.
             for (int i = 0; i < foods.size(); i++) {
                 newOrder.addFood(foods.get(i));
@@ -248,21 +245,32 @@ public class NewOrder extends AppCompatActivity {
                 newOrder.addDrink(drinks.get(i));
             }
 
+            //Set the old OrderId to the new Order.
+            newOrder.setOrder_ID(oldOrder.getOrder_ID());
+
+            //Set the old status
+            if(oldOrder.getStatusAppetizer().equals("Sent"))
+                newOrder.setStatusAppetizer("Sent");
+
+            if(oldOrder.getStatusMain().equals("Sent"))
+                newOrder.setStatusMain("Sent");
+
+            if(oldOrder.getStatusDessert().equals("Sent"))
+                newOrder.setStatusDessert("Sent");
+
             //Merge the old and new comments.
-            //newOrder.setComment("Old comment: " + oldOrder.getComment() + " | New comment: " + newOrder.getComment());
+            newOrder.setComment("Old comment: " + oldOrder.getComment() + " | New comment: " + newOrder.getComment());
 
             //Updating the order to the API.
             call = fetchData.updateOrder(oldOrder.getOrder_ID(), newOrder);
         }
-
-
 
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     //Change table status
-                    updateTableStatus(tableSession, new TableModel(tableSession,tableId,tableSize, "Active"));
+                    updateTableStatus(table.getSessionId(), new TableModel(table.getSessionId(),table.getTableNumber(),table.getTableSize(), "Active"));
 
                     //Go back to the MainActivity
                     Intent intent = new Intent(NewOrder.this, MainActivity.class);
@@ -277,10 +285,10 @@ public class NewOrder extends AppCompatActivity {
                 Log.d("insert Response","Failure!");
             }
         });
+
+
+
     }
-
-
-
 
     public void updateTableStatus(int tableId, TableModel tableModel){
         Call<Void> call = fetchData.updateTable(tableId, tableModel);

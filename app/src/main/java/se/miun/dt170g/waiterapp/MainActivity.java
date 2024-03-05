@@ -96,13 +96,11 @@ public class MainActivity extends AppCompatActivity implements TablesInterface {
     @Override
     public void onTableClick(int position) {
         //Checks if the table is empty or not, 0 refers to empty.
-        if(tableModels.get(position).getTableStatus().equals("Free")){
+        if(tableModels.get(position).getTableStatus().equals("Free") || tableModels.get(position).getTableStatus().equals("Reserved")){
             Intent i = new Intent(this, NewOrder.class);
 
             //send table info
-            i.putExtra("TableSession",tableModels.get(position).getSessionId());
-            i.putExtra("TableNr",tableModels.get(position).getTableNumber());
-            i.putExtra("TableSize",tableModels.get(position).getTableSize());
+            i.putExtra("Table", tableModels.get(position));
 
             startActivity(i);
 

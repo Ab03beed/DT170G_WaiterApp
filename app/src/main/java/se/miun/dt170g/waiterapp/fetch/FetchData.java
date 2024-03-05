@@ -27,9 +27,6 @@ public interface FetchData {
     @GET("order/{id}")
     Call<OrderDTO> getOrderById(@Path("id") int orderID);
 
-    @POST("drinks")
-    Call<Void> addDrink(@Body DrinkModel newDrink);
-
     @POST("order")
     Call<Void> addOrder(@Body OrderDTO newOrder);
 

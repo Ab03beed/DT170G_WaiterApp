@@ -55,52 +55,36 @@ public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.MyViewHold
 
         holder.tableNumber.setText("Bord Nr: " + tableModels.get(position).getTableNumber());
 
-        /*holder.appetizerStatus.setText("Förrätt: " + tableModels.get(position).get());
-        holder.tableNumber.setText("Bord Nr: " + tableModels.get(position).getTableNumber());
-        holder.tableNumber.setText("Bord Nr: " + tableModels.get(position).getTableNumber());*/
 
         if(tableModels.get(position).getTableStatus().equals("Free")){
             holder.tableCard.setCardBackgroundColor(ContextCompat.getColor(context.getApplicationContext(), R.color.green));
 
-        }else if (tableModels.get(position).getTableStatus().equals("Active")){
-            holder.tableCard.setCardBackgroundColor(ContextCompat.getColor(context.getApplicationContext(), R.color.orange));
+        }else if (tableModels.get(position).getTableStatus().equals("Active") || tableModels.get(position).getTableStatus().equals("Reserved")){
 
-            //Loop through the activeOrders to find the right order that belongs to the right table.
-            for (int i = 0; i < activeOrders.size(); i++) {
-                //check if the order belongs to the table.
-                if(activeOrders.get(i).getRestaurantTableId() == tableModels.get(position).getTableNumber()){
-                    //Check if the ststus is not none in the api
-                    if(!activeOrders.get(i).getStatusAppetizer().equals("none"))
-                        holder.appetizerStatus.setText("Förrätt: " + activeOrders.get(i).getStatusAppetizer());
-
-                    if (!activeOrders.get(i).getStatusMain().equals("none"))
-                        holder.mainStatus.setText("Huvudrätt: " + activeOrders.get(i).getStatusMain());
-
-                    if(!activeOrders.get(i).getStatusDessert().equals("none"))
-                        holder.dessertStatus.setText("Efterrätt: " + activeOrders.get(i).getStatusDessert());
-                }
+            if(tableModels.get(position).getTableStatus().equals("Active")) {
+                holder.tableCard.setCardBackgroundColor(ContextCompat.getColor(context.getApplicationContext(), R.color.orange));
+            }else{
+                holder.tableCard.setCardBackgroundColor(ContextCompat.getColor(context.getApplicationContext(), R.color.red));
             }
 
-
-        }else if (tableModels.get(position).getTableStatus().equals("Reserved")) {
-            holder.tableCard.setCardBackgroundColor(ContextCompat.getColor(context.getApplicationContext(), R.color.red));
-
             //Loop through the activeOrders to find the right order that belongs to the right table.
             for (int i = 0; i < activeOrders.size(); i++) {
                 //check if the order belongs to the table.
                 if(activeOrders.get(i).getRestaurantTableId() == tableModels.get(position).getTableNumber()){
                     //Check if the ststus is not none in the api
-                    if(!activeOrders.get(i).getStatusAppetizer().equals("none"))
+                    if(!activeOrders.get(i).getStatusAppetizer().equals("None"))
                         holder.appetizerStatus.setText("Förrätt: " + activeOrders.get(i).getStatusAppetizer());
 
-                    if (!activeOrders.get(i).getStatusMain().equals("none"))
+                    if (!activeOrders.get(i).getStatusMain().equals("None"))
                         holder.mainStatus.setText("Huvudrätt: " + activeOrders.get(i).getStatusMain());
 
-                    if(!activeOrders.get(i).getStatusDessert().equals("none"))
+                    if(!activeOrders.get(i).getStatusDessert().equals("None"))
                         holder.dessertStatus.setText("Efterrätt: " + activeOrders.get(i).getStatusDessert());
                 }
             }
         }
+
+
 
 
     }
@@ -124,8 +108,6 @@ public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.MyViewHold
             appetizerStatus = itemView.findViewById(R.id.AppetizerStatus);
             mainStatus = itemView.findViewById(R.id.MainStatus);
             dessertStatus = itemView.findViewById(R.id.DessertStatus);
-
-
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
