@@ -84,9 +84,9 @@ public class NewOrder extends AppCompatActivity {
 
                     //Check the type of the aLaCarte and add it to the right ArrayList.
                     for (ALaCarteModel item: aLaCarteModels){
-                        if( item.getType().equals("förrätt")){
+                        if( item.getType().equals("Förrätt")){
                             inputFor.add(new InputModel(item.getaLaCarteID(), item.getPrice(), item.getName(), item.getType(), item.getDescription()));
-                        }else if(item.getType().equals("huvudrätt")){
+                        }else if(item.getType().equals("Huvudrätt")){
                             inputHuvud.add(new InputModel(item.getaLaCarteID(), item.getPrice(), item.getName(), item.getType(), item.getDescription()));
                         }else{
                             inputEfter.add(new InputModel(item.getaLaCarteID(), item.getPrice(), item.getName(), item.getType(), item.getDescription()));
@@ -270,7 +270,7 @@ public class NewOrder extends AppCompatActivity {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     //Change table status
-                    updateTableStatus(table.getSessionId(), new TableModel(table.getSessionId(),table.getTableNumber(),table.getTableSize(), "Active"));
+                    updateTableStatus(table.getTableNumber(), new TableModel(table.getTableNumber(),table.getTableSize(), "Active"));
 
                     //Go back to the MainActivity
                     Intent intent = new Intent(NewOrder.this, MainActivity.class);

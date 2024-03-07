@@ -1,5 +1,6 @@
 package se.miun.dt170g.waiterapp.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -43,8 +44,9 @@ public class InputAdapter extends RecyclerView.Adapter<InputAdapter.MyViewHolder
         return new InputAdapter.MyViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull InputAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull InputAdapter.MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.itemName.setText(inputModels.get(position).getItemName());
         holder.price.setText("Pris: " + String.valueOf(inputModels.get(position).getPrice()));
 
@@ -63,13 +65,9 @@ public class InputAdapter extends RecyclerView.Adapter<InputAdapter.MyViewHolder
             @Override
             public void afterTextChanged(Editable s) {
                 if(isChanged){
-                    try{
+                    if (!s.toString().equals("")){
                         inputModels.get(position).setCount(Integer.parseInt(s.toString()));
-
-                    }catch (NumberFormatException e){
-
                     }
-
                     isChanged = false; //Switch back isChanged to false.
                 }
             }

@@ -1,21 +1,13 @@
 package se.miun.dt170g.waiterapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Intent;
-import android.media.RingtoneManager;
-import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 
 import java.util.ArrayList;
 import retrofit2.Call;
@@ -23,7 +15,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import se.miun.dt170g.waiterapp.adapters.TablesAdapter;
 import se.miun.dt170g.waiterapp.adapters.TablesInterface;
-import se.miun.dt170g.waiterapp.class_models.DrinkModel;
 import se.miun.dt170g.waiterapp.class_models.OrderDTO;
 import se.miun.dt170g.waiterapp.class_models.TableModel;
 import se.miun.dt170g.waiterapp.fetch.FetchData;
@@ -33,6 +24,10 @@ public class MainActivity extends AppCompatActivity implements TablesInterface {
 
     private ArrayList<TableModel> tableModels = new ArrayList<>();
     private ArrayList<OrderDTO> activeOrders = new ArrayList<>();
+
+    private final Handler handler = new Handler();
+
+    private final int interval = 10000; // Interval in milliseconds (10 seconds)
 
     private Retro retrofit = new Retro();
     private FetchData fetchData = retrofit.getRetrofit().create(FetchData.class);
@@ -46,13 +41,21 @@ public class MainActivity extends AppCompatActivity implements TablesInterface {
 
         fetchActiveOrders();
 
-
+        handler.postDelayed(updateStatus, interval);
 
     }
 
+    private final Runnable updateStatus = new Runnable() {
+        @Override
+        public void run() {
+            fetchActiveOrders();
+            // Schedule the next execution after INTERVAL milliseconds
+            handler.postDelayed(this, interval);
+        }
+    };
+
     public void fetchActiveOrders(){
         Call<ArrayList<OrderDTO>> call = fetchData.getActiveOrders();
-
         call.enqueue(new Callback<ArrayList<OrderDTO>>() {
             @Override
             public void onResponse(Call<ArrayList<OrderDTO>> call, Response<ArrayList<OrderDTO>> response) {

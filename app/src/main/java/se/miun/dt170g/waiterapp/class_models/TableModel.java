@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 public class TableModel implements Serializable {
 
-    private int sessionId;
 
     private int tableNumber;
 
@@ -13,20 +12,13 @@ public class TableModel implements Serializable {
     private String status;
 
 
-    public TableModel(int sessionId, int tableNumber, int tableSize, String status) {
-        this.sessionId = sessionId;
+    public TableModel(int tableNumber, int tableSize, String status) {
+
         this.tableNumber = tableNumber;
         this.tableSize = tableSize;
         this.status = status;
     }
 
-    public int getSessionId() {
-        return sessionId;
-    }
-
-    public void setSessionId(int sessionId) {
-        this.sessionId = sessionId;
-    }
 
     public int getTableNumber() {
         return tableNumber;

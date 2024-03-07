@@ -127,7 +127,9 @@ public class OrderDetails extends AppCompatActivity implements ItemsInterface {
         updateOrder(orderDTO.getOrder_ID(), orderDTO);
 
         //Update table status
-        updateTable(tableModel.getSessionId(), new TableModel(tableModel.getSessionId(), tableModel.getTableNumber(), tableModel.getTableSize(), "Free"));
+        updateTable(tableModel.getTableNumber(), new TableModel(tableModel.getTableNumber(), tableModel.getTableSize(), "Free"));
+        //updateTable(tableModel.getSessionId(), new TableModel(tableModel.getSessionId(), tableModel.getTableNumber(), tableModel.getTableSize(), "Free"));
+
 
         //Go back to the MainActivity
         Intent intent = new Intent(OrderDetails.this, MainActivity.class);
