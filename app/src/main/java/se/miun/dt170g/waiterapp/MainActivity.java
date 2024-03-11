@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements TablesInterface {
 
     private final Handler handler = new Handler();
 
-    private final int interval = 10000; // Interval in milliseconds (10 seconds)
+    private final int interval = 20000; // Interval in milliseconds (10 seconds)
 
     private Retro retrofit = new Retro();
     private FetchData fetchData = retrofit.getRetrofit().create(FetchData.class);

@@ -81,8 +81,11 @@ public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.MyViewHold
                     if(!activeOrders.get(i).getStatusAppetizer().equals("None"))
                         holder.appetizerStatus.setText("Förrätt: " + activeOrders.get(i).getStatusAppetizer());
 
-                    if(activeOrders.get(i).getStatusAppetizer().equals("COMPLETED"))
+                    if(activeOrders.get(i).getStatusAppetizer().equals("COMPLETED")){
                         showNotification(activeOrders.get(i).getRestaurantTableId(), "Förrätt färdig");
+                        activeOrders.get(i).setStatusAppetizer("Ready");
+                    }
+
 
 
 
